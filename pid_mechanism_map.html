@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Ledger — How a PID Diverts Growth</title>
+<style>
+  :root{
+    --cream:#f6f1e6;
+    --paper:#fbf8f1;
+    --navy:#10233f;
+    --navy-deep:#0a1626;
+    --gold:#b8863b;
+    --gold-bright:#d6a752;
+    --flag:#9c3b2e;
+    --flag-bright:#c14e3a;
+    --ink:#1c1c1c;
+    --ink-soft:#4a4a48;
+    --rule:#d8cfba;
+    --green-ok:#3f6b4a;
+    --font-display: Georgia, 'Iowan Old Style', 'Palatino Linotype', 'Book Antiqua', serif;
+    --font-body: 'Helvetica Neue', Arial, sans-serif;
+    --font-mono: 'Courier New', ui-monospace, monospace;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--cream);
+    color:var(--ink);
+    font-family:var(--font-body);
+    line-height:1.55;
+  }
+  a{color:var(--navy);}
+
+  /* ---- Header ---- */
+  header.masthead{
+    background:linear-gradient(180deg,var(--navy) 0%, var(--navy-deep) 100%);
+    color:var(--cream);
+    padding:44px 24px 36px;
+    text-align:center;
+    border-bottom:6px solid var(--gold);
+  }
+  header.masthead .eyebrow{
+    font-family:var(--font-mono);
+    letter-spacing:.28em;
+    font-size:11px;
+    text-transform:uppercase;
+    color:var(--gold-bright);
+    margin-bottom:10px;
+  }
+  header.masthead h1{
+    font-family:var(--font-display);
+    font-weight:400;
+    font-size:clamp(28px,5vw,46px);
+    margin:0 0 12px;
+    letter-spacing:.01em;
+  }
+  header.masthead p.sub{
+    max-width:640px;
+    margin:0 auto;
+    color:#cdd6e4;
+    font-size:15px;
+  }
+
+  main{max-width:920px;margin:0 auto;padding:0 20px 80px;}
+
+  /* ---- Section framing ---- */
+  section.block{margin-top:64px;}
+  .num-eyebrow{
+    font-family:var(--font-mono);
+    color:var(--gold);
+    font-size:13px;
+    letter-spacing:.15em;
+    margin-bottom:6px;
+  }
+  h2.block-title{
+    font-family:var(--font-display);
+    font-weight:400;
+    font-size:clamp(22px,3.6vw,30px);
+    margin:0 0 8px;
+    color:var(--navy);
+  }
+  p.block-lede{
+    color:var(--ink-soft);
+    font-size:15.5px;
+    max-width:620px;
+    margin:0 0 26px;
+  }
+
+  /* ---- Hypothesis banner ---- */
+  .hypothesis-card{
+    background:var(--paper);
+    border:1px solid var(--rule);
+    border-left:5px solid var(--flag);
+    border-radius:2px;
+    padding:22px 24px;
+    margin-top:24px;
+  }
+  .hypothesis-card .tag{
+    font-family:var(--font-mono);
+    font-size:11px;
+    letter-spacing:.15em;
+    color:var(--flag);
+    text-transform:uppercase;
+    margin-bottom:8px;
+  }
+  .hypothesis-card p{margin:0 0 10px;font-size:15.5px;}
+  .hypothesis-card p:last-child{margin-bottom:0;}
+  .hypothesis-card .confirmed{
+    display:inline-block;
+    margin-top:4px;
+    font-family:var(--font-mono);
+    font-size:12px;
+    color:var(--green-ok);
+    background:#e7efe8;
+    padding:3px 9px;
+    border-radius:3px;
+  }
+
+  /* ---- Mechanism diagram ---- */
+  .mech-wrap{
+    background:var(--paper);
+    border:1px solid var(--rule);
+    border-radius:4px;
+    padding:28px 22px 22px;
+  }
+  .mech-row{
+    display:flex;
+    gap:10px;
+    align-items:stretch;
+    flex-wrap:wrap;
+    justify-content:center;
+  }
+  .mech-node{
+    flex:1 1 150px;
+    min-width:140px;
+    max-width:190px;
+    background:#fff;
+    border:1.5px solid var(--rule);
+    border-radius:6px;
+    padding:14px 12px;
+    text-align:center;
+    cursor:pointer;
+    transition:all .15s ease;
+    position:relative;
+  }
+  .mech-node:hover{border-color:var(--gold);transform:translateY(-2px);box-shadow:0 4px 10px rgba(0,0,0,.06);}
+  .mech-node.active{border-color:var(--gold);background:#fdf7ea;box-shadow:0 4px 10px rgba(0,0,0,.08);}
+  .mech-node .icon{font-size:20px;margin-bottom:6px;display:block;}
+  .mech-node .label{font-weight:600;font-size:13px;color:var(--navy);}
+  .mech-node.split{border-color:var(--flag);}
+  .mech-arrow{
+    display:flex;align-items:center;justify-content:center;
+    font-size:20px;color:var(--gold);
+    padding:0 2px;
+    flex:0 0 auto;
+  }
+  .mech-detail{
+    margin-top:20px;
+    background:#fff;
+    border:1px solid var(--rule);
+    border-left:4px solid var(--gold);
+    border-radius:3px;
+    padding:16px 18px;
+    font-size:14.5px;
+    color:var(--ink-soft);
+    min-height:64px;
+  }
+  .mech-detail b{color:var(--navy);}
+  .split-legend{
+    display:flex;gap:18px;justify-content:center;margin-top:18px;flex-wrap:wrap;
+    font-family:var(--font-mono);font-size:11.5px;color:var(--ink-soft);
+  }
+  .split-legend span{display:flex;align-items:center;gap:6px;}
+  .dot{width:9px;height:9px;border-radius:50%;display:inline-block;}
+  .dot.gold{background:var(--gold);}
+  .dot.flag{background:var(--flag);}
+
+  /* ---- Toggle: where the gap gets covered ---- */
+  .gap-toggle-wrap{
+    margin-top:30px;
+    padding-top:24px;
+    border-top:1px dashed var(--rule);
+    text-align:center;
+  }
+  .gap-toggle-wrap p.q{font-size:14.5px;color:var(--ink-soft);margin-bottom:14px;}
+  .toggle-btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;}
+  .toggle-btn{
+    font-family:var(--font-mono);
+    font-size:12.5px;
+    letter-spacing:.04em;
+    padding:9px 16px;
+    border:1.5px solid var(--navy);
+    background:#fff;
+    color:var(--navy);
+    border-radius:20px;
+    cursor:pointer;
+    transition:all .15s ease;
+  }
+  .toggle-btn:hover{background:var(--navy);color:#fff;}
+  .toggle-btn.active{background:var(--navy);color:#fff;}
+  .gap-result{
+    margin-top:18px;
+    font-size:14.5px;
+    color:var(--ink-soft);
+    max-width:520px;
+    margin-left:auto;margin-right:auto;
+    min-height:44px;
+  }
+
+  /* ---- Map ---- */
+  .map-wrap{
+    background:var(--paper);
+    border:1px solid var(--rule);
+    border-radius:4px;
+    padding:20px;
+    display:flex;
+    gap:24px;
+    flex-wrap:wrap;
+    align-items:flex-start;
+  }
+  .map-svg-holder{flex:1 1 300px;min-width:260px;text-align:center;}
+  .map-svg-holder svg{width:100%;max-width:380px;height:auto;}
+  .map-note{
+    font-family:var(--font-mono);
+    font-size:10.5px;
+    color:#8c8471;
+    margin-top:8px;
+    letter-spacing:.02em;
+  }
+  .pid-pin{cursor:pointer;}
+  .pid-pin circle{transition:r .12s ease;}
+  .pid-pin:hover circle, .pid-pin.active circle{r:9;}
+  .map-cards{flex:1 1 300px;min-width:260px;}
+  .pid-card{
+    background:#fff;
+    border:1px solid var(--rule);
+    border-radius:4px;
+    padding:14px 16px;
+    margin-bottom:12px;
+    cursor:pointer;
+    transition:border-color .12s ease;
+  }
+  .pid-card:hover, .pid-card.active{border-color:var(--gold);}
+  .pid-card .pname{font-weight:700;color:var(--navy);font-size:14.5px;}
+  .pid-card .ploc{font-family:var(--font-mono);font-size:11px;color:var(--ink-soft);margin-bottom:6px;}
+  .pid-card .pstat{font-size:13.5px;color:var(--ink-soft);}
+  .pid-card .flag-badge{
+    display:inline-block;
+    font-family:var(--font-mono);
+    font-size:10px;
+    color:#fff;
+    background:var(--flag);
+    padding:2px 7px;
+    border-radius:3px;
+    margin-top:6px;
+  }
+
+  /* ---- Stat / math strip ---- */
+  .stat-strip{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:26px;}
+  .stat-box{
+    flex:1 1 190px;
+    background:var(--navy);
+    color:var(--cream);
+    border-radius:4px;
+    padding:16px 18px;
+  }
+  .stat-box .n{font-family:var(--font-mono);font-size:24px;color:var(--gold-bright);}
+  .stat-box .l{font-size:11.5px;color:#b9c3d6;margin-top:4px;}
+
+  .growth-chart{
+    background:var(--paper);
+    border:1px solid var(--rule);
+    border-radius:4px;
+    padding:24px 22px;
+  }
+  .bar-row{display:flex;align-items:center;gap:14px;margin-bottom:16px;}
+  .bar-row:last-child{margin-bottom:0;}
+  .bar-label{width:150px;flex-shrink:0;font-family:var(--font-mono);font-size:12px;color:var(--ink-soft);}
+  .bar-track{flex:1;background:#e9e2cf;border-radius:3px;height:22px;position:relative;overflow:hidden;}
+  .bar-fill{
+    height:100%;
+    background:linear-gradient(90deg,var(--gold) 0%, var(--flag) 100%);
+    border-radius:3px 0 0 3px;
+    width:0%;
+    transition:width 1s ease;
+  }
+  .bar-val{width:100px;text-align:right;flex-shrink:0;font-family:var(--font-mono);font-size:13px;color:var(--navy);font-weight:700;}
+
+  .nvv-mini{
+    margin-top:22px;
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+    gap:10px;
+  }
+  .nvv-mini div{
+    background:#fff;border:1px solid var(--rule);border-radius:4px;padding:10px 12px;
+  }
+  .nvv-mini .k{font-family:var(--font-mono);font-size:10.5px;color:#8c8471;text-transform:uppercase;letter-spacing:.05em;}
+  .nvv-mini .v{font-family:var(--font-mono);font-size:15px;color:var(--flag);font-weight:700;margin-top:2px;}
+
+  /* ---- Sourcing ---- */
+  .source-block{
+    background:var(--paper);
+    border:1px solid var(--rule);
+    border-radius:4px;
+    padding:22px 24px;
+    font-size:14px;
+    color:var(--ink-soft);
+  }
+  .source-block h3{
+    font-family:var(--font-mono);
+    font-size:12px;
+    letter-spacing:.1em;
+    color:var(--navy);
+    text-transform:uppercase;
+    margin:18px 0 8px;
+  }
+  .source-block h3:first-child{margin-top:0;}
+  .source-block ul{margin:0 0 4px;padding-left:20px;}
+  .source-block li{margin-bottom:6px;}
+  blockquote.cannon{
+    border-left:3px solid var(--gold);
+    margin:12px 0;
+    padding:6px 0 6px 14px;
+    font-style:italic;
+    color:var(--navy);
+    font-size:14px;
+  }
+
+  footer{
+    text-align:center;
+    padding:34px 20px 50px;
+    font-family:var(--font-mono);
+    font-size:11px;
+    color:#8c8471;
+  }
+
+  @media (max-width:600px){
+    .mech-row{flex-direction:column;}
+    .mech-arrow{transform:rotate(90deg);padding:4px 0;}
+    .bar-label{width:110px;font-size:10.5px;}
+  }
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="eyebrow">THE WEBER COUNTY HIVE — FIELD NOTES</div>
+  <h1>Where the Growth Money Goes</h1>
+  <p class="sub">A working explainer on Public Infrastructure Districts (PIDs), tax increment financing, and what happens when the frozen base can't keep up with what growth actually costs.</p>
+</header>
+
+<main>
+
+  <!-- 00 -->
+  <section class="block" id="hypothesis">
+    <div class="num-eyebrow">00 / THE HYPOTHESIS</div>
+    <h2 class="block-title">The claim this page tests</h2>
+    <p class="block-lede">Before the mechanism and the map — the actual thing being argued, stated plainly, so it can be checked rather than assumed.</p>
+    <div class="hypothesis-card">
+      <div class="tag">Working hypothesis — not yet entity-by-entity verified</div>
+      <p>When a PID or TIF district diverts the tax increment from new growth into a restricted debt service fund, the county, school district, fire district, and water district never get credit for that growth on their books — even though they still have to serve it: more rooftops, more students, more calls, more water and road demand.</p>
+      <p>If the increment can't cover both the debt payments <em>and</em> the real cost of that added service burden, the gap has only two places to come from: a higher certified tax rate on everyone outside the district, or cuts to services / reserves.</p>
+      <span class="confirmed">✓ Mechanism confirmed by Utah State Auditor's office (Aug 2026) — disclosure of that link to the public is not yet confirmed anywhere</span>
+    </div>
+  </section>
+
+  <!-- 01 -->
+  <section class="block" id="mechanism">
+    <div class="num-eyebrow">01 / THE MECHANISM</div>
+    <h2 class="block-title">Follow the increment</h2>
+    <p class="block-lede">Click each stage. This is the actual path a tax dollar takes once a PID or TIF freezes the base year.</p>
+
+    <div class="mech-wrap">
+      <div class="mech-row" id="mechRow">
+        <div class="mech-node" data-key="growth">
+          <span class="icon">🏗️</span>
+          <span class="label">New development happens</span>
+        </div>
+        <div class="mech-arrow">→</div>
+        <div class="mech-node" data-key="value">
+          <span class="icon">📈</span>
+          <span class="label">Assessed value rises above the frozen base</span>
+        </div>
+        <div class="mech-arrow">→</div>
+        <div class="mech-node split" data-key="split">
+          <span class="icon">🔀</span>
+          <span class="label">The increment splits</span>
+        </div>
+      </div>
+      <div class="mech-row" style="margin-top:14px;">
+        <div class="mech-node" data-key="fund">
+          <span class="icon">🔒</span>
+          <span class="label">Increment → restricted PID/TIF debt service fund</span>
+        </div>
+        <div class="mech-arrow">→</div>
+        <div class="mech-node" data-key="bonds">
+          <span class="icon">🏦</span>
+          <span class="label">Pays bondholders on the district's debt</span>
+        </div>
+      </div>
+      <div class="mech-row" style="margin-top:14px;">
+        <div class="mech-node" data-key="entities">
+          <span class="icon">🏛️</span>
+          <span class="label">County / school / fire / water get $0 credit for that growth</span>
+        </div>
+        <div class="mech-arrow">→</div>
+        <div class="mech-node" data-key="burden">
+          <span class="icon">🚒</span>
+          <span class="label">...but still serve the students, calls, water, roads it creates</span>
+        </div>
+        <div class="mech-arrow">→</div>
+        <div class="mech-node" data-key="gap">
+          <span class="icon">⚠️</span>
+          <span class="label">Shortfall</span>
+        </div>
+      </div>
+
+      <div class="mech-detail" id="mechDetail">Click a stage above to see what happens at that step.</div>
+
+      <div class="split-legend">
+        <span><span class="dot gold"></span> Increment (frozen-base growth)</span>
+        <span><span class="dot flag"></span> Stays with taxing entities (base value only)</span>
+      </div>
+
+      <div class="gap-toggle-wrap">
+        <p class="q">The shortfall in the diagram above has to be covered somehow. Pick one:</p>
+        <div class="toggle-btns">
+          <button class="toggle-btn" data-gap="rate">Raise the rate on everyone else</button>
+          <button class="toggle-btn" data-gap="cut">Cut services / draw reserves</button>
+          <button class="toggle-btn" data-gap="neither">Is there a third option?</button>
+        </div>
+        <div class="gap-result" id="gapResult"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 02 -->
+  <section class="block" id="map">
+    <div class="num-eyebrow">02 / ON THE MAP</div>
+    <h2 class="block-title">Two districts already showing the strain</h2>
+    <p class="block-lede">Schematic, not to scale — for orientation only. Click a pin or a card. This is not a complete statewide inventory; it's what's confirmed so far.</p>
+
+    <div class="map-wrap">
+      <div class="map-svg-holder">
+        <svg viewBox="0 0 300 320" xmlns="http://www.w3.org/2000/svg">
+          <!-- schematic Utah outline: rectangle with NE notch, not geographically precise -->
+          <polygon points="40,20 230,20 230,90 260,90 260,300 40,300"
+                   fill="#eee6d3" stroke="#b8a888" stroke-width="1.5"/>
+          <text x="150" y="270" text-anchor="middle" font-family="Courier New, monospace" font-size="10" fill="#8c8471">UTAH (schematic)</text>
+
+          <!-- Nordic Village / Eden, Weber County -->
+          <g class="pid-pin" data-key="nordic" transform="translate(95,95)">
+            <circle r="7" fill="#9c3b2e"/>
+            <text x="12" y="4" font-family="Courier New, monospace" font-size="10" fill="#10233f">Nordic Village PID</text>
+          </g>
+
+          <!-- Wohali / Coalville, Summit County -->
+          <g class="pid-pin" data-key="wohali" transform="translate(150,140)">
+            <circle r="7" fill="#9c3b2e"/>
+            <text x="12" y="4" font-family="Courier New, monospace" font-size="10" fill="#10233f">Wohali PID</text>
+          </g>
+        </svg>
+        <div class="map-note">Approximate placement · Weber &amp; Summit counties</div>
+      </div>
+
+      <div class="map-cards">
+        <div class="pid-card" data-key="nordic">
+          <div class="pname">Nordic Village PID No. 1</div>
+          <div class="ploc">Eden, Weber County — Ogden Valley</div>
+          <div class="pstat">$80M bonding authority (created Nov 2024). $55M in tax increment pledged away from Weber County, the school district, fire district, and water district for 15 years. As of 3/31/2026: $0 property tax revenue, zero population, negative fund equity of roughly $2.5M.</div>
+          <span class="flag-badge">Pre-development, fully leveraged</span>
+        </div>
+        <div class="pid-card" data-key="wohali">
+          <div class="pname">Wohali PID</div>
+          <div class="ploc">Coalville, Summit County — golf resort development</div>
+          <div class="pstat">Filed Chapter 11 bankruptcy in August 2025 — the case that prompted the State Auditor's office to formally warn local governments about PID risk statewide.</div>
+          <span class="flag-badge">Bankrupt, Aug 2025</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 03 -->
+  <section class="block" id="math">
+    <div class="num-eyebrow">03 / THE MATH</div>
+    <h2 class="block-title">The statewide number, growing</h2>
+    <p class="block-lede">Municipal bonds issued for all PIDs statewide — the debt Utahns will ultimately be paying, confirmed directly by the State Auditor's office.</p>
+
+    <div class="stat-strip">
+      <div class="stat-box"><div class="n">$5.267B</div><div class="l">total statewide PID debt, as of 8/7/2026</div></div>
+      <div class="stat-box"><div class="n">+$1.3–1.5B</div><div class="l">growth in under a year</div></div>
+      <div class="stat-box"><div class="n">15 yrs</div><div class="l">length of Nordic Village's TIF diversion agreement</div></div>
+    </div>
+
+    <div class="growth-chart">
+      <div class="bar-row">
+        <div class="bar-label">End of 2025</div>
+        <div class="bar-track"><div class="bar-fill" data-target="72"></div></div>
+        <div class="bar-val">~$3.8–4B</div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-label">Aug 7, 2026</div>
+        <div class="bar-track"><div class="bar-fill" data-target="100"></div></div>
+        <div class="bar-val">$5.267B</div>
+      </div>
+    </div>
+
+    <div class="nvv-mini">
+      <div><div class="k">Bond Payable</div><div class="v">$39.38M</div></div>
+      <div><div class="k">Fund Equity</div><div class="v">-$2.53M</div></div>
+      <div><div class="k">Property Tax Rev.</div><div class="v">$0</div></div>
+      <div><div class="k">Population</div><div class="v">0</div></div>
+    </div>
+  </section>
+
+  <!-- 04 -->
+  <section class="block" id="sourcing">
+    <div class="num-eyebrow">04 / SOURCING &amp; STATUS</div>
+    <h2 class="block-title">What's confirmed, what isn't yet</h2>
+    <div class="source-block">
+      <h3>Confirmed, on the record</h3>
+      <ul>
+        <li>State Auditor Tina Cannon's office confirmed the statewide PID debt figures directly (meeting Aug 10, 2026; written follow-up Aug 7, 2026 total).</li>
+        <li>Cannon's office confirmed the increment-diversion mechanism in writing — that diverted revenue funds a restricted debt service fund the taxing entities never receive, and that the only levers to cover a resulting shortfall are a higher certified rate under Truth in Taxation, or cuts to services/reserves.</li>
+        <li>Nordic Village PID financials pulled from board minutes, budget documents, and the Preliminary Official Statement for its bond issuances.</li>
+        <li>Wohali's Chapter 11 filing (Aug 2025) is public record.</li>
+      </ul>
+      <h3>Not yet confirmed</h3>
+      <ul>
+        <li>Whether individual taxing entities disclose PID/TIF diversion as a specific cause when presenting rate increases to the public under Truth in Taxation — this is the open question currently out to the Auditor's office.</li>
+        <li>A statewide, entity-by-entity accounting of which counties/districts have raised rates specifically because of increment diversion.</li>
+      </ul>
+      <h3>In Cannon's own words (from correspondence)</h3>
+      <blockquote class="cannon">"...the taxing entities are stuck paying for the added service burden without getting the added revenue to cover it. That gap has to be filled from somewhere, and the only place they can pull it from is the tax rate on everyone else..."</blockquote>
+      <blockquote class="cannon">"It gets made up by everyone else paying a higher rate, or by everyone else getting less service — there's no third funding source that appears to cover the gap."</blockquote>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  THE WEBER COUNTY HIVE · Built from source documents on file · Regenerate as new PIDs or confirmations come in
+</footer>
+
+<script>
+  const mechDetails = {
+    growth: "A developer builds inside a PID or TIF district's boundary. This is the trigger — nothing diverts until new value is created.",
+    value: "The county assessor's office values the new development. The base year was frozen when the district was created, so this new value sits above that frozen line.",
+    split: "Everything above the frozen base line is the 'increment.' Everything at or below it stays taxed and distributed normally.",
+    fund: "The increment is walled off by statute into a restricted debt service fund — it never touches the taxing entities' general funds, even temporarily.",
+    bonds: "That fund exists to pay bondholders who financed the district's infrastructure. This is the district's whole reason for existing.",
+    entities: "The county, school district, fire district, and water district don't get to count that new value as part of their revenue base — as far as their books are concerned, for funding purposes, it doesn't exist yet.",
+    burden: "But real people moved in. More students enrolled, more 911 calls come in, more water gets used, more roads get driven on — those costs are real and immediate, regardless of what the books say.",
+    gap: "The taxing entities have to cover real, current costs with a revenue base that didn't grow to match. That's the shortfall this whole page is about."
+  };
+
+  const nodes = document.querySelectorAll('.mech-node');
+  const detailBox = document.getElementById('mechDetail');
+  nodes.forEach(n => {
+    n.addEventListener('click', () => {
+      nodes.forEach(x => x.classList.remove('active'));
+      n.classList.add('active');
+      const key = n.getAttribute('data-key');
+      detailBox.innerHTML = mechDetails[key] || "";
+    });
+  });
+
+  const gapResults = {
+    rate: "This is what Truth in Taxation actually allows: a public hearing, then a higher certified rate applied to the existing tax base — meaning current homeowners and businesses outside the diverted increment pay more to cover a shortfall created by growth they got no revenue credit for.",
+    cut: "The slower-motion version of the same cost: trimming services, delaying capital projects, or drawing down reserve/fund balance instead of raising the rate. Felt as reduced service rather than a visible tax hike — but it's the same underlying gap.",
+    neither: "According to the State Auditor's office directly: no. There's no third funding source that appears to cover the gap. It's one of the two above — or some mix of both."
+  };
+  const gapBtns = document.querySelectorAll('.toggle-btn');
+  const gapResult = document.getElementById('gapResult');
+  gapBtns.forEach(b => {
+    b.addEventListener('click', () => {
+      gapBtns.forEach(x => x.classList.remove('active'));
+      b.classList.add('active');
+      gapResult.textContent = gapResults[b.getAttribute('data-gap')];
+    });
+  });
+
+  // Map pins <-> cards
+  const pins = document.querySelectorAll('.pid-pin');
+  const cards = document.querySelectorAll('.pid-card');
+  function selectPid(key){
+    pins.forEach(p => p.classList.toggle('active', p.getAttribute('data-key') === key));
+    cards.forEach(c => c.classList.toggle('active', c.getAttribute('data-key') === key));
+  }
+  pins.forEach(p => p.addEventListener('click', () => selectPid(p.getAttribute('data-key'))));
+  cards.forEach(c => c.addEventListener('click', () => selectPid(c.getAttribute('data-key'))));
+
+  // Animate bars on scroll into view
+  const bars = document.querySelectorAll('.bar-fill');
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if(e.isIntersecting){
+        const target = e.target.getAttribute('data-target');
+        e.target.style.width = target + '%';
+        io.unobserve(e.target);
+      }
+    });
+  }, {threshold:0.4});
+  bars.forEach(b => io.observe(b));
+</script>
+
+</body>
+</html>
