@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PID Explainers — A Guide | The Weber County Hive</title>
+<style>
+  :root{
+    --cream:#f6f1e6;
+    --paper:#fbf8f1;
+    --navy:#10233f;
+    --navy-deep:#0a1626;
+    --gold:#b8863b;
+    --gold-bright:#d6a752;
+    --flag:#9c3b2e;
+    --flag-bright:#c14e3a;
+    --ink:#1c1c1c;
+    --ink-soft:#4a4a48;
+    --rule:#d8cfba;
+    --green-ok:#3f6b4a;
+    --font-display: Georgia, 'Iowan Old Style', 'Palatino Linotype', 'Book Antiqua', serif;
+    --font-body: 'Helvetica Neue', Arial, sans-serif;
+    --font-mono: 'Courier New', ui-monospace, monospace;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0;background:var(--cream);color:var(--ink);font-family:var(--font-body);line-height:1.55;}
+  a{color:var(--navy);}
+
+  header.masthead{
+    background:linear-gradient(180deg,var(--navy) 0%, var(--navy-deep) 100%);
+    color:var(--cream);
+    padding:56px 24px 44px;
+    text-align:center;
+    border-bottom:6px solid var(--gold);
+  }
+  header.masthead .eyebrow{
+    font-family:var(--font-mono);
+    letter-spacing:.28em;
+    font-size:11px;
+    text-transform:uppercase;
+    color:var(--gold-bright);
+    margin-bottom:12px;
+  }
+  header.masthead h1{
+    font-family:var(--font-display);
+    font-size:clamp(30px,5vw,48px);
+    margin:0 0 14px;
+    font-weight:700;
+    letter-spacing:-0.01em;
+  }
+  header.masthead p{
+    max-width:56ch;
+    margin:0 auto;
+    font-size:16px;
+    color:rgba(246,241,230,0.78);
+    line-height:1.65;
+  }
+
+  main{
+    max-width:820px;
+    margin:0 auto;
+    padding:48px 24px 100px;
+  }
+
+  .guide-note{
+    font-family:var(--font-mono);
+    font-size:12px;
+    letter-spacing:0.05em;
+    color:var(--ink-soft);
+    text-transform:uppercase;
+    border-bottom:2px solid var(--gold);
+    padding-bottom:10px;
+    margin-bottom:28px;
+    display:flex;
+    justify-content:space-between;
+  }
+
+  #pid-card-list{}
+
+  .pid-card{
+    display:block;
+    text-decoration:none;
+    color:var(--ink);
+    background:var(--paper);
+    border:1px solid var(--rule);
+    border-radius:3px;
+    padding:30px 30px 24px;
+    margin-bottom:20px;
+    box-shadow:0 10px 24px -14px rgba(16,35,63,0.35);
+    transition:transform 0.16s ease, box-shadow 0.16s ease;
+    position:relative;
+  }
+  .pid-card:hover{
+    transform:translateY(-2px);
+    box-shadow:0 16px 30px -14px rgba(16,35,63,0.45);
+  }
+  .pid-card .kind{
+    font-family:var(--font-mono);
+    font-size:10.5px;
+    letter-spacing:0.1em;
+    text-transform:uppercase;
+    color:var(--gold);
+    display:block;
+    margin-bottom:8px;
+  }
+  .pid-card h2{
+    font-family:var(--font-display);
+    font-size:24px;
+    margin:0 0 10px;
+    font-weight:700;
+    color:var(--navy);
+  }
+  .pid-card p{
+    font-size:15px;
+    color:var(--ink-soft);
+    margin:0 0 16px;
+    max-width:60ch;
+  }
+  .pid-card .open{
+    font-family:var(--font-mono);
+    font-size:12px;
+    letter-spacing:0.04em;
+    color:var(--flag);
+    font-weight:600;
+  }
+  .pid-card .tags{
+    display:flex;
+    gap:8px;
+    flex-wrap:wrap;
+    margin-bottom:16px;
+  }
+  .pid-card .tag{
+    font-family:var(--font-mono);
+    font-size:10px;
+    letter-spacing:0.04em;
+    text-transform:uppercase;
+    padding:3px 8px;
+    border:1px solid var(--rule);
+    border-radius:2px;
+    color:var(--ink-soft);
+  }
+
+  .ghost-note{
+    border:1.5px dashed var(--rule);
+    border-radius:3px;
+    padding:22px 30px;
+    color:var(--ink-soft);
+    font-family:var(--font-mono);
+    font-size:12px;
+    letter-spacing:0.03em;
+    text-align:center;
+    margin-top:8px;
+  }
+
+  footer{
+    max-width:820px;
+    margin:0 auto;
+    padding:0 24px 60px;
+    font-family:var(--font-mono);
+    font-size:11px;
+    color:var(--ink-soft);
+    border-top:1px solid var(--rule);
+    padding-top:20px;
+  }
+
+  @media (max-width:600px){
+    .guide-note{flex-direction:column; gap:4px;}
+  }
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <p class="eyebrow">The Weber County Hive</p>
+  <h1>Public Infrastructure Districts, Explained</h1>
+  <p>A guide to every PID explainer on this site — what the mechanism is, how it moves money, and how it shows up in specific Utah projects. Start wherever fits what you're trying to understand.</p>
+</header>
+
+<main>
+  <div class="guide-note">
+    <span>Explainers</span>
+    <span id="pid-count">— published</span>
+  </div>
+
+  <div id="pid-card-list"></div>
+
+  <div class="ghost-note">More PID explainers get added here as they're built</div>
+</main>
+
+<footer>
+  Compiled by The Weber County Hive. Sourced from public records, bond disclosures, and official filings for each explainer linked above.
+</footer>
+
+<script src="weber-pid-guide-data.js?v=1"></script>
+<script>
+  const list = document.getElementById('pid-card-list');
+  document.getElementById('pid-count').textContent = PID_PAGES.length + ' published';
+
+  PID_PAGES.forEach(p => {
+    const a = document.createElement('a');
+    a.className = 'pid-card';
+    a.href = p.link;
+
+    const tagsHtml = (p.tags || []).map(t => `<span class="tag">${t}</span>`).join('');
+
+    a.innerHTML = `
+      <span class="kind">${p.kind}</span>
+      <h2>${p.title}</h2>
+      <p>${p.description}</p>
+      <div class="tags">${tagsHtml}</div>
+      <span class="open">${p.linkLabel || 'Open →'}</span>
+    `;
+    list.appendChild(a);
+  });
+</script>
+
+</body>
+</html>
