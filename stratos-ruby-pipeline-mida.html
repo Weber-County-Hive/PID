@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Box Elder County Explanation — Stratos, the Ruby Pipeline, and MIDA</title>
+<style>
+  :root{
+    --cream:#f6f1e6;
+    --paper:#fbf8f1;
+    --navy:#10233f;
+    --navy-deep:#0a1626;
+    --gold:#b8863b;
+    --gold-bright:#d6a752;
+    --flag:#9c3b2e;
+    --flag-bright:#c14e3a;
+    --ink:#1c1c1c;
+    --ink-soft:#4a4a48;
+    --rule:#d8cfba;
+    --green-ok:#3f6b4a;
+    --font-display: Georgia, 'Iowan Old Style', 'Palatino Linotype', 'Book Antiqua', serif;
+    --font-body: 'Helvetica Neue', Arial, sans-serif;
+    --font-mono: 'Courier New', ui-monospace, monospace;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0;background:var(--cream);color:var(--ink);font-family:var(--font-body);line-height:1.55;}
+  a{color:var(--navy);}
+  header.masthead{background:linear-gradient(180deg,var(--navy) 0%, var(--navy-deep) 100%);color:var(--cream);padding:44px 24px 36px;text-align:center;border-bottom:6px solid var(--gold);}
+  header.masthead .eyebrow{font-family:var(--font-mono);letter-spacing:.28em;font-size:11px;text-transform:uppercase;color:var(--gold-bright);margin-bottom:10px;}
+  header.masthead h1{font-family:var(--font-display);font-weight:400;font-size:clamp(26px,5vw,42px);margin:0 0 12px;letter-spacing:.01em;}
+  header.masthead p.sub{max-width:640px;margin:0 auto;color:#cdd6e4;font-size:15px;}
+  main{max-width:920px;margin:0 auto;padding:0 20px 80px;}
+  section.block{margin-top:64px;}
+  .num-eyebrow{font-family:var(--font-mono);color:var(--gold);font-size:13px;letter-spacing:.15em;margin-bottom:6px;}
+  h2.block-title{font-family:var(--font-display);font-weight:400;font-size:clamp(22px,3.6vw,30px);margin:0 0 8px;color:var(--navy);}
+  p.block-lede{color:var(--ink-soft);font-size:15.5px;max-width:640px;margin:0 0 26px;}
+  .hypothesis-card{background:var(--paper);border:1px solid var(--rule);border-left:5px solid var(--flag);border-radius:2px;padding:22px 24px;margin-top:24px;}
+  .hypothesis-card .tag{font-family:var(--font-mono);font-size:11px;letter-spacing:.15em;color:var(--flag);text-transform:uppercase;margin-bottom:8px;}
+  .hypothesis-card p{margin:0 0 10px;font-size:15.5px;}
+  .hypothesis-card p:last-child{margin-bottom:0;}
+  .hypothesis-card .confirmed{display:inline-block;margin-top:4px;font-family:var(--font-mono);font-size:12px;color:var(--green-ok);background:#e7efe8;padding:3px 9px;border-radius:3px;}
+  .source-block{background:var(--paper);border:1px solid var(--rule);border-radius:4px;padding:22px 24px;font-size:14px;color:var(--ink-soft);}
+  .source-block h3{font-family:var(--font-mono);font-size:12px;letter-spacing:.1em;color:var(--navy);text-transform:uppercase;margin:18px 0 8px;}
+  .source-block h3:first-child{margin-top:0;}
+  .source-block ul{margin:0 0 4px;padding-left:20px;}
+  .source-block li{margin-bottom:6px;}
+  blockquote.cannon{border-left:3px solid var(--gold);margin:12px 0;padding:6px 0 6px 14px;font-style:italic;color:var(--navy);font-size:14px;}
+  .stat-strip{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:26px;}
+  .stat-box{flex:1 1 190px;background:var(--navy);color:var(--cream);border-radius:4px;padding:16px 18px;}
+  .stat-box .n{font-family:var(--font-mono);font-size:22px;color:var(--gold-bright);}
+  .stat-box .l{font-size:11.5px;color:#b9c3d6;margin-top:4px;}
+  .timeline-wrap{background:var(--paper);border:1px solid var(--rule);border-radius:4px;padding:24px 22px;}
+  .tl-row{display:flex;gap:16px;margin-bottom:18px;align-items:flex-start;}
+  .tl-row:last-child{margin-bottom:0;}
+  .tl-date{flex:0 0 120px;font-family:var(--font-mono);font-size:12px;color:var(--gold);font-weight:700;padding-top:2px;}
+  .tl-body{flex:1;border-left:2px solid var(--rule);padding-left:16px;}
+  .tl-body .t{font-weight:700;color:var(--navy);font-size:14.5px;margin-bottom:3px;}
+  .tl-body .d{font-size:13.5px;color:var(--ink-soft);}
+  .toggle-btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:18px;}
+  .toggle-btn{font-family:var(--font-mono);font-size:12.5px;letter-spacing:.04em;padding:9px 16px;border:1.5px solid var(--navy);background:#fff;color:var(--navy);border-radius:20px;cursor:pointer;transition:all .15s ease;}
+  .toggle-btn:hover{background:var(--navy);color:#fff;}
+  .toggle-btn.active{background:var(--navy);color:#fff;}
+  .toggle-result{margin-top:18px;font-size:14.5px;color:var(--ink-soft);min-height:44px;}
+  .evergreen-diagram{background:#fff;border:1px solid var(--rule);border-radius:4px;padding:22px;margin-top:18px;}
+  .eg-bar-track{background:#e9e2cf;border-radius:3px;height:28px;position:relative;overflow:hidden;margin:10px 0;}
+  .eg-bar-fill{height:100%;background:linear-gradient(90deg,var(--green-ok) 0%, var(--gold) 60%, var(--flag) 100%);border-radius:3px;}
+  .eg-labels{display:flex;justify-content:space-between;font-family:var(--font-mono);font-size:11px;color:var(--ink-soft);}
+  footer{text-align:center;padding:34px 20px 50px;font-family:var(--font-mono);font-size:11px;color:#8c8471;}
+  @media (max-width:600px){.tl-row{flex-direction:column;}.tl-date{flex:none;}}
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="eyebrow">BOX ELDER COUNTY — FIELD NOTES</div>
+  <h1>Box Elder County Explanation: Stratos, the Ruby Pipeline, and MIDA</h1>
+  <p class="sub">How a $100 billion data center got approved with an energy supply that may not actually be there — and how the approval process worked around the local government it sits in.</p>
+</header>
+
+<main>
+
+  <section class="block" id="hypothesis">
+    <div class="num-eyebrow">00 / THE CLAIM</div>
+    <h2 class="block-title">What this page tests</h2>
+    <p class="block-lede">Stratos was approved as a 9-gigawatt project reliant on direct access to the Ruby Pipeline for its on-site gas power plants. The approval timeline assumed that access would be available. The pipeline's own contract terms say otherwise.</p>
+    <div class="hypothesis-card">
+      <div class="tag">Working hypothesis</div>
+      <p>MIDA and Box Elder County approved Stratos in April and May 2026 on the premise that Ruby Pipeline capacity, currently under contract to PG&amp;E, would become available once that contract expired on October 31, 2026.</p>
+      <p>That contract contains an evergreen clause letting PG&amp;E extend it, one year at a time, until 2036 — meaning the capacity Stratos needs may never actually free up on the timeline the project's approval assumed.</p>
+      <span class="confirmed">✓ Evergreen clause confirmed directly in CPUC Resolution E-5280 (Oct 12, 2023) — public record, no GRAMA required</span>
+    </div>
+  </section>
+
+  <section class="block" id="timeline">
+    <div class="num-eyebrow">01 / THE APPROVAL TIMELINE</div>
+    <h2 class="block-title">How fast this moved</h2>
+    <p class="block-lede">From MIDA's approval to the Governor's executive order, the entire sequence played out in five weeks.</p>
+    <div class="timeline-wrap">
+      <div class="tl-row">
+        <div class="tl-date">Apr 24, 2026</div>
+        <div class="tl-body"><div class="t">MIDA board unanimously approves Stratos</div><div class="d">Project Area Plan, development standards, the O'Leary development agreement, and the Box Elder interlocal agreement — four resolutions, one meeting. Gage Froerer present and voting yes on all four.</div></div>
+      </div>
+      <div class="tl-row">
+        <div class="tl-date">May 4, 2026</div>
+        <div class="tl-body"><div class="t">Box Elder County Commission approves</div><div class="d">Voted 10 days after MIDA, without taking public comment from the 1,000+ residents who showed up to oppose it.</div></div>
+      </div>
+      <div class="tl-row">
+        <div class="tl-date">May 29, 2026</div>
+        <div class="tl-body"><div class="t">Gov. Cox issues executive order</div><div class="d">"Establishing a Higher Bar for Data Center Development in Utah" — 25 days after county approval, 35 days after MIDA approval. Binds executive agencies but explicitly does not bind MIDA, which is independent of the order.</div></div>
+      </div>
+      <div class="tl-row">
+        <div class="tl-date">Jun 1-4, 2026</div>
+        <div class="tl-body"><div class="t">Adams demands a 75% reduction</div><div class="d">Senate President Stuart Adams — who chairs MIDA, the board that had just approved the full project — publicly demanded a cut from 40,000 to 10,000 acres. O'Leary said the letter was "political pressure from the upcoming primaries." Adams was in a contested GOP primary at the time.</div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="ruby">
+    <div class="num-eyebrow">02 / THE RUBY PIPELINE PROBLEM</div>
+    <h2 class="block-title">The energy supply the project depends on</h2>
+    <p class="block-lede">Stratos's on-site gas power plants are designed to interface directly with the Ruby Pipeline — a 683-mile line carrying 1.5 billion cubic feet of gas a day, currently operated by Tallgrass Energy. The problem: most of that capacity is already spoken for, and the pipeline itself may need its current customer more than anyone realized.</p>
+
+    <div class="hypothesis-card" style="margin-top:0; margin-bottom:24px;">
+      <div class="tag">In the simplest possible terms</div>
+      <p>Imagine a very long hose that carries gas instead of water. One customer, PG&amp;E, has been renting almost the whole hose since 2011. Their rental agreement says it ends in 2026 — but there's a rule buried in the contract that lets PG&amp;E just keep renting it, one year at a time, up to ten more times. So the hose might not actually become free in 2026 like everyone assumed.</p>
+      <p>Here's the part that makes it worse for Stratos: this hose hasn't found a single new renter since 2012. PG&amp;E is basically the only customer keeping it in business. So it's not just that PG&amp;E <em>might</em> want to keep renting — the hose's owner may really <em>need</em> PG&amp;E to keep renting, or the hose stops making money. That gives PG&amp;E a lot of power to just say "we're staying," and very little reason for the hose's owner to kick them out to make room for a new customer like Stratos.</p>
+    </div>
+
+    <div class="stat-strip">
+      <div class="stat-box"><div class="n">9 GW</div><div class="l">Stratos's approved generation capacity</div></div>
+      <div class="stat-box"><div class="n">1.5 Bcf/d</div><div class="l">Ruby Pipeline's total capacity</div></div>
+      <div class="stat-box"><div class="n">375 MDth/d</div><div class="l">PG&E's original locked-in share of that</div></div>
+    </div>
+
+    <div class="evergreen-diagram">
+      <p style="font-family:var(--font-mono);font-size:12px;color:var(--navy);text-transform:uppercase;letter-spacing:.06em;margin:0 0 4px;">What the approval assumed vs. what the contract actually allows</p>
+      <div class="eg-bar-track"><div class="eg-bar-fill" style="width:100%;"></div></div>
+      <div class="eg-labels">
+        <span>2026 — contract's original end date</span>
+        <span>2036 — evergreen extension ceiling</span>
+      </div>
+      <p style="font-size:13.5px;color:var(--ink-soft);margin:16px 0 0; line-height:1.6;">PG&amp;E's Ruby Pipeline contract runs a 15-year term that ends October 31, 2026. But the contract explicitly grants PG&amp;E up to TEN separate 1-year evergreen extension options — that is the actual math behind the 2036 ceiling, written into the contract itself, not a loose estimate. As of the most recent public filing, PG&amp;E had exercised none of them yet — but kept every one available. Nothing in the Stratos approval record accounts for the possibility that PG&amp;E simply keeps renewing.</p>
+    </div>
+
+    <div class="source-block" style="margin-top:20px;">
+      <h3>The pipeline may need PG&E more than PG&E needs the pipeline</h3>
+      <p style="margin:0 0 10px;">PG&amp;E's own prepared regulatory testimony states that Ruby Pipeline had not signed a single new long-term capacity contract since 2012, and that the real open-market value of shipping gas through it averaged just $0.04 per unit from 2012 to 2020 — next to nothing. That flips the assumption the Stratos approval seems to rest on: it is not simply "PG&amp;E's contract runs out, so space opens up." It may be closer to "PG&amp;E is the pipeline's main paying customer, which gives PG&amp;E the leverage to keep extending rather than the pipeline having a reason to let them go."</p>
+      <p style="margin:0;">PG&amp;E also separately manages and profits from its own downstream connection out of the pipeline's Oregon endpoint (the "Redwood Path" into California) independent of how much Ruby capacity it holds — meaning PG&amp;E keeps a financial reason to stay connected to Ruby at some level even if it eventually scales back.</p>
+    </div>
+
+    <div class="source-block" style="margin-top:20px;">
+      <h3>A documented pattern of PG&E holding on, not letting go</h3>
+      <p style="margin:0;">PG&amp;E had scheduled rights to release 20% of its Ruby capacity in both 2024 and 2025. It chose not to exercise either release, citing the winter 2022-2023 gas price spikes as justification for keeping supply diversified. The result: PG&amp;E retained 75,000 MMBtu/d of Ruby capacity through October 2026 — right up to the date Stratos's approval assumed that capacity would become available.</p>
+    </div>
+
+    <div class="toggle-btns">
+      <button class="toggle-btn" data-key="expert">What outside experts say</button>
+      <button class="toggle-btn" data-key="developer">What the developers say</button>
+      <button class="toggle-btn" data-key="gap">The actual gap</button>
+    </div>
+    <div class="toggle-result" id="toggleResult"></div>
+  </section>
+
+  <section class="block" id="water">
+    <div class="num-eyebrow">03 / THE WATER PATTERN</div>
+    <h2 class="block-title">The same story, with water instead of gas</h2>
+    <p class="block-lede">Independent estimates and developer estimates for Stratos's water use differ by as much as 28 times. No published environmental impact study exists for either figure.</p>
+    <div class="source-block">
+      <h3>The range</h3>
+      <ul>
+        <li>Developers: 500-1,800 acre-feet/year, closed-loop, "little to no ongoing water use"</li>
+        <li>Utah Clean Energy (independent analysis): 6,137-50,950 acre-feet/year for on-site power generation alone — and explicitly states this figure excludes data center cooling and upstream methane leakage</li>
+      </ul>
+      <h3>What's actually been filed</h3>
+      <p style="margin:0 0 10px;">Two change applications attempted to route existing agricultural water rights toward the project — a 1,900 acre-foot Bar H Ranch transfer and an 11 acre-foot Murray Hollow L.C. transfer. Both drew thousands of protests. Both were withdrawn. As of the most recent confirmed records, neither has been approved.</p>
+      <p style="margin:0;">A 1971 USGS/state hydrology study of the exact basin Stratos sits in (Hansel Valley) concluded the area's groundwater perennial yield is "negligible" — a finding activists have cited accurately, and one no newer government study has superseded.</p>
+    </div>
+  </section>
+
+  <section class="block" id="mida-power">
+    <div class="num-eyebrow">04 / WHO ACTUALLY APPROVED THIS</div>
+    <h2 class="block-title">MIDA bypassed the county it sits in</h2>
+    <div class="source-block">
+      <p style="margin:0 0 10px;">MIDA's framing lets a project bypass normal county zoning and public review by invoking a "national security/military use" label. Stratos was referred to MIDA in January 2026 by the Governor's Office of Economic Development — the same office then run by Jefferson Moss, who went on to sit as a non-voting MIDA board member touting the project's "economic growth potential for Northern Utah."</p>
+      <p style="margin:0;">MIDA cut Stratos's energy-use tax from the standard 6% down to 0.5%, and agreed to rebate 80% of the property tax revenue the development generates back to the developer. Box Elder County commissioners had no negotiating role in either decision — MIDA's board approved the full deal weeks before the county even voted.</p>
+    </div>
+  </section>
+
+  <section class="block" id="taxpayer">
+    <div class="num-eyebrow">04A / WHAT IT COSTS THE COUNTY</div>
+    <h2 class="block-title">What Box Elder taxpayers actually get</h2>
+    <p class="block-lede">Box Elder County's own 2026 budget shows the real scale of what's being traded away.</p>
+
+    <div class="stat-strip">
+      <div class="stat-box"><div class="n">$11.36M</div><div class="l">county's ENTIRE annual property tax revenue, 2026</div></div>
+      <div class="stat-box"><div class="n">$5.4M/yr</div><div class="l">Stratos mitigation payment - for 3 years only</div></div>
+      <div class="stat-box"><div class="n">$0</div><div class="l">county's ongoing share after year 3</div></div>
+    </div>
+
+    <div class="hypothesis-card" style="margin-top:0;">
+      <div class="tag">In the simplest possible terms</div>
+      <p>Imagine the county's whole yearly allowance is about $11 million. Stratos offers to give it roughly half of that allowance extra, each year, for three years — then stops. After that, the county gets almost nothing more from the project itself, because 100% of the equipment tax and 80% of the property tax get sent right back to the developer. The other 20% doesn't even go to the county — it goes to the state and to MIDA.</p>
+      <p>Meanwhile, the county still has to handle everything the project brings: more people, more roads, more water and sewer demand, more emergency calls — forever, not just for three years. That's why the agreement includes a strange, specific detail: the developer has to buy the county a new fire truck every ten years. That's the agreement itself admitting the county's costs don't stop after year three, even though the payments do.</p>
+    </div>
+  </section>
+
+  <section class="block" id="population">
+    <div class="num-eyebrow">04B / THE PEOPLE ARRIVING</div>
+    <h2 class="block-title">A sudden population surge in a small county</h2>
+    <p class="block-lede">Box Elder County has about 65,000-66,700 residents total, growing by roughly 1,200-1,700 people a year through ordinary births and people moving in. Stratos's own job estimates would bring a very different kind of growth.</p>
+
+    <div class="evergreen-diagram">
+      <p style="font-family:var(--font-mono);font-size:12px;color:var(--navy);text-transform:uppercase;letter-spacing:.06em;margin:0 0 4px;">Construction workforce as a share of the county's entire population</p>
+      <div class="eg-bar-track"><div class="eg-bar-fill" style="width:60%;"></div></div>
+      <div class="eg-labels"><span>Lower estimate: 4,000 workers (~6% of county)</span><span>Higher estimate: 10,000 workers (~15% of county)</span></div>
+      <p style="font-size:13.5px;color:var(--ink-soft);margin:16px 0 0; line-height:1.6;">Official sources disagree on the construction workforce by 2.5x - Forbes cited 10,000, the Salt Lake Tribune cited roughly 4,000 based on developer statements. Either way, that's thousands of workers showing up for one project, on top of an estimated 2,000 permanent jobs, in a county that normally adds only 1,200-1,700 residents a year total. This isn't gradual growth a small county's roads, water systems, schools, and emergency services were built to absorb - it's a compressed surge tied to a single development's timeline.</p>
+    </div>
+  </section>
+
+  <section class="block" id="farmland">
+    <div class="num-eyebrow">04C / THE LAND ITSELF</div>
+    <h2 class="block-title">Working farmland, and the heat it would absorb</h2>
+    <p class="block-lede">Cattle are grazing on the proposed site today. What replaces that grazing land brings its own risks.</p>
+    <div class="hypothesis-card" style="margin-top:0;">
+      <div class="tag">In the simplest possible terms</div>
+      <p>Right now this land grows grass and feeds cattle. If Stratos is built, the same land would instead give off enormous amounts of heat — enough, by one physics professor's estimate, to equal 23 atomic bombs a day. A separate expert estimates nighttime temperatures nearby could rise by as much as 8 to 28 degrees. That kind of heat dries out farmland and speeds up evaporation from the Great Salt Lake, which is already shrinking.</p>
+      <p>There's also a tax detail buried in here: this land currently gets a big tax break for being farmland. Once construction starts, that break goes away, and the developer owes a one-time "catch-up" tax for the years it got the discount. That money does go to the county — but it's a one-time payment, not something the county can count on every year.</p>
+    </div>
+    <div class="source-block">
+      <ul>
+        <li>Noise and light pollution are named directly as resident concerns in coverage of the project's first design renderings</li>
+        <li>The Utah Division of Air Quality has not yet completed its emissions review as of the most recent public document</li>
+        <li>Skagit County, Washington has already banned new data center applications specifically to protect farmland and water - a real precedent for treating this land as off-limits</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="block" id="dust">
+    <div class="num-eyebrow">04D / THE DUST PROBLEM</div>
+    <h2 class="block-title">Box Elder County is a named toxic dust hotspot</h2>
+    <p class="block-lede">This isn't a general Great Salt Lake worry - researchers have specifically named this county as one of three places the worst dust comes from.</p>
+    <div class="hypothesis-card" style="margin-top:0;">
+      <div class="tag">In the simplest possible terms</div>
+      <p>As the Great Salt Lake dries up, the exposed lakebed turns to dust - and that dust carries real poison in it: arsenic, lead, mercury, and other toxic metals left over from decades of industry and mining. When the wind blows hard, it picks that dust up and carries it into nearby towns, where people breathe it in.</p>
+      <p>Scientists studying exactly where this dust comes from named three specific spots as the worst sources in the whole state. One of them is the northwest edge of the Great Salt Lake - sitting inside Box Elder County, the same county Stratos wants to build in. And the wind that carries this dust blows straight north into Box Elder and Weber counties. New research even found the toxins showing up inside vegetables grown in dusty soil, even after washing them.</p>
+      <p>So the fight over how much water Stratos really uses isn't just about the lake's water level. Every bit of water pulled from the basin adds to the drying that makes this exact dust problem worse - in the exact county already named as one of the worst sources.</p>
+    </div>
+  </section>
+
+  <section class="block" id="attainment">
+    <div class="num-eyebrow">04E / WHY THIS SPOT, SPECIFICALLY</div>
+    <h2 class="block-title">MIDA admitted the site was chosen to dodge stricter air rules</h2>
+    <p class="block-lede">This isn't speculation - MIDA's own communications director said it out loud.</p>
+    <div class="hypothesis-card" style="margin-top:0;">
+      <div class="tag">In the simplest possible terms</div>
+      <p>Some parts of Utah already have air so dirty, by federal standards, that new polluters face a much harder time getting approved there - places like Salt Lake, Davis, and parts of Weber and Tooele counties. Box Elder County isn't on that list, mostly because it doesn't have many polluters yet. That makes it much easier to get a new, giant industrial project approved there.</p>
+      <p>MIDA's own spokesperson admitted this is part of why the site was picked - being outside that stricter zone means the project "may be able to see approval more easily." But experts point out the obvious problem: the wind doesn't know where the county line is. Pollution from Box Elder County can and does blow south into the dirty-air zone anyway - so picking a "clean" spot on paper doesn't actually keep the pollution contained.</p>
+    </div>
+    <div class="source-block">
+      <blockquote class="cannon">"If Mr. O'Leary brings his hyperscale data center into Box Elder County, that's going to have an impact on the air pollution that's experienced by just about everybody along the Wasatch Front." — Brian Moench, Utah Physicians for a Healthy Environment</blockquote>
+      <p style="margin:8px 0 0;">Utah's Department of Environmental Quality confirmed a full year of background air monitoring is required before Stratos can even apply for a permit - and as of the most recent reporting, developers had not yet started that process.</p>
+    </div>
+  </section>
+
+  <section class="block" id="homeowner">
+    <div class="num-eyebrow">04F / WHAT IT DOES TO A LOCAL HOMEOWNER</div>
+    <h2 class="block-title">Run the numbers on what's actually being given up</h2>
+    <p class="block-lede">Drag the sliders to see the gap between what standard taxation would generate at any given project valuation, and what's actually been promised to the county.</p>
+
+    <div class="mech-wrap">
+      <div class="calc-controls">
+        <div>
+          <div class="calc-row"><label>Project valuation at this stage of buildout</label><span id="ruby-valuation-out">$100B</span></div>
+          <input type="range" id="ruby-valuation" min="10" max="100" step="5" value="100"/>
+        </div>
+        <div>
+          <div class="calc-row"><label>Standard Box Elder property tax rate</label><span id="ruby-rate-out">0.9%</span></div>
+          <input type="range" id="ruby-rate" min="0.5" max="1.2" step="0.05" value="0.9"/>
+        </div>
+        <div>
+          <div class="calc-row"><label>What's actually promised to the county per year</label><span id="ruby-promised-out">$108M</span></div>
+          <input type="range" id="ruby-promised" min="30" max="150" step="1" value="108"/>
+        </div>
+      </div>
+
+      <div style="position:relative;height:260px;margin:24px 0 20px;">
+        <canvas id="rubyGapChart" role="img" aria-label="Bar chart comparing what standard property taxation would generate versus what is actually promised to the county">Comparison chart</canvas>
+      </div>
+
+      <div class="calc-card" style="display:flex;justify-content:space-between;align-items:baseline;">
+        <span style="font-size:14px;color:var(--ink-soft);">The gap between standard taxation and what's promised</span>
+        <span style="font-size:20px;font-weight:700;color:var(--flag);" id="ruby-gap-out">$792M/yr</span>
+      </div>
+    </div>
+
+    <div class="hypothesis-card" style="margin-top:24px;">
+      <div class="tag">In the simplest possible terms</div>
+      <p>If a homeowner's own house were taxed at the same rate as everyone else's, and then the government agreed to only collect a tiny fraction of it and call that generous, most people would find that strange. That's roughly what's happening here, just at a scale of billions instead of thousands.</p>
+      <p>There's also a more direct risk. The county itself has said, in writing, that if the developer buys nearby land for more than it's normally worth, that could raise the "going rate" used to value everyone else's land too - which can mean a higher property tax bill for a neighbor who has nothing to do with the project and gets none of its promised money.</p>
+    </div>
+
+    <div class="source-block" style="margin-top:20px;">
+      <h3>What the county says vs. what this doesn't cover</h3>
+      <p style="margin:0 0 10px;">The county's own FAQ states plainly: "Will resident taxes increase because of the project? No. The project will place no burden on county taxpayers." That claim is about a direct new tax being added - it doesn't address either the forgone-revenue gap shown above, or the assessed-value spillover risk to nearby land the county itself flagged internally.</p>
+      <p style="margin:0;">Public opinion on the deal: a June 2026 poll found 71% of registered Box Elder County voters opposed the project, and nearly 75% disapproved of how the county commission handled its approval.</p>
+    </div>
+  </section>
+
+  <section class="block" id="landowners">
+    <div class="num-eyebrow">04G / THE SAME SMALL NETWORK</div>
+    <h2 class="block-title">Land near the project, and seats on the board that approved it</h2>
+    <p class="block-lede">These are documented, confirmed connections. Where holdings or ties haven't been confirmed, they're left out rather than guessed at.</p>
+
+    <p style="font-family:var(--font-mono);font-size:12px;color:var(--navy);text-transform:uppercase;letter-spacing:.06em;margin:0 0 10px;">Land ownership near the project</p>
+    <div class="timeline-wrap">
+      <div class="tl-row">
+        <div class="tl-date">Schultz</div>
+        <div class="tl-body"><div class="t">House Speaker Mike Schultz</div><div class="d">25,000+ acres across three entities near the Stratos site. Conflict-of-interest disclosures on this land have been left blank.</div></div>
+      </div>
+      <div class="tl-row">
+        <div class="tl-date">Sandall</div>
+        <div class="tl-body"><div class="t">State Senator Scott Sandall</div><div class="d">Owns Sandall Ranches in Promontory, directly inside the Stratos project area, plus Sandall Trucking LLC and S&P Investments LLC. Personally called a Box Elder County Commissioner in the weeks before the vote to advocate for the project. Also a sponsor of SB 132, a bill in the same enabling legislative package. His campaign has taken recurring checks from Chevron, PacifiCorp, EnergySolutions, Dominion Energy, Marathon Petroleum, and the Utah Petroleum Association across 2022-2025. In June 2025 he joined an official Utah delegation to the UK on a nuclear fact-finding trip - part of a formal, ongoing UK-Utah government nuclear cooperation agreement - and his own campaign account later reimbursed him $1,777 for it. He now sits on Utah's official Nuclear Consortium, the state panel advising on nuclear strategy and funding.</div></div>
+      </div>
+      <div class="tl-row">
+        <div class="tl-date">Stevenson</div>
+        <div class="tl-body"><div class="t">State Senator Jerry Stevenson, MIDA board member</div><div class="d">Family land in Box Elder County (J&J Nursery).</div></div>
+      </div>
+    </div>
+
+    <p style="font-family:var(--font-mono);font-size:12px;color:var(--navy);text-transform:uppercase;letter-spacing:.06em;margin:28px 0 10px;">Who sits on the board that approved it</p>
+    <div class="timeline-wrap">
+      <div class="tl-row">
+        <div class="tl-date">Adams</div>
+        <div class="tl-body"><div class="t">J. Stuart Adams, MIDA Chair (Senate President)</div><div class="d">Also documented as a top recipient of PacifiCorp, Chevron, and EnergySolutions donations tied to the state's parallel nuclear-energy legislative push. He lost his own GOP primary on June 23, 2026 but keeps the Senate President and MIDA Chair seats until January 2027 - and roughly 96% of the $208,300 his campaign took in during this period arrived AFTER that loss, including a $25,000 check from Building Construction Partners LLC (which does business as "Flagship Companies" - the same company partnered with the state and TerraPower on siting a nuclear reactor in Utah) and a $55,000 transfer from his own leadership PAC into his campaign account.</div></div>
+      </div>
+      <div class="tl-row">
+        <div class="tl-date">Froerer</div>
+        <div class="tl-body"><div class="t">Gage Froerer, MIDA board (Weber County Commissioner)</div><div class="d">The same commissioner already documented for undisclosed conflicts of interest in the separate Nordic Village PID investigation - sits on this board too.</div></div>
+      </div>
+      <div class="tl-row">
+        <div class="tl-date">Ostermiller</div>
+        <div class="tl-body"><div class="t">Mike Ostermiller, MIDA board since 2008</div><div class="d">The board's own designated liaison to MIDA staff. Separately a longtime real estate lobbyist whose past clients include Blue Castle Holdings - the company behind Utah's Green River nuclear reactor project - and the Utah Inland Port Authority, a different quasi-governmental land authority with the same kind of tax-and-bond power as MIDA.</div></div>
+      </div>
+    </div>
+
+    <div class="source-block" style="margin-top:20px;">
+      <p style="margin:0;">Neither list is exhaustive. Confirming additional land ownership requires a direct pull from the Box Elder County Recorder's office - that step hasn't been completed yet, and the county has not been cooperative with records requests on this investigation to date.</p>
+    </div>
+  </section>
+
+  <section class="block" id="midamoney">
+    <div class="num-eyebrow">04H / WHY MIDA NEEDS THE MONEY - IT DOESN'T, FOR ITSELF</div>
+    <h2 class="block-title">What MIDA actually costs to run, versus what it captures</h2>
+    <div class="hypothesis-card" style="margin-top:0;">
+      <div class="tag">In the simplest possible terms</div>
+      <p>MIDA is a small state agency - 9 full-time staff. Running the agency itself costs about $1.8 million a year. That's it. Everything else in MIDA's budget - and its total budget is $122 million for next year alone - isn't MIDA's own operating cost. It's money passing through MIDA to pay off developers' construction loans and build the roads, water, and sewer lines those developers' projects need.</p>
+      <p>So when people ask why MIDA needs to capture so much tax money from a project like Stratos, the honest answer is: it doesn't need it to run itself. It needs it to keep paying down bonds and building infrastructure on behalf of the private developers whose projects it approves.</p>
+    </div>
+    <div class="stat-strip">
+      <div class="stat-box"><div class="n">$1.8M</div><div class="l">MIDA's actual annual operating cost</div></div>
+      <div class="stat-box"><div class="n">$122M</div><div class="l">MIDA's total FY2027 statewide budget</div></div>
+      <div class="stat-box"><div class="n">9</div><div class="l">full-time MIDA staff</div></div>
+    </div>
+    <div class="source-block">
+      <p style="margin:0 0 10px;">In another MIDA project area (Wasatch County's Jordanelle Basin), MIDA's own tax-sharing template keeps 75% of new property tax revenue for 40 years, leaving the county 25% - the same pattern of redirecting the majority of new tax growth away from the local government and into developer-serving infrastructure, for decades at a time.</p>
+      <p style="margin:0;">MIDA's own stated Stratos-specific take: an estimated $49 million a year in property taxes once fully built, "sharing a slice with the state" - not the county.</p>
+    </div>
+  </section>
+
+  <section class="block" id="bills">
+    <div class="num-eyebrow">04I / THE BILLS THAT BUILT THIS</div>
+    <h2 class="block-title">Four laws, built in sequence over three years</h2>
+    <p class="block-lede">None of this happened with one bill. It was built in order, each piece making the next one possible.</p>
+
+    <div class="timeline-wrap">
+      <div class="tl-row">
+        <div class="tl-date">2024</div>
+        <div class="tl-body"><div class="t">SB 169 - expanded MIDA's tax and revenue authority</div><div class="d">Gives MIDA the taxing and bonding muscle to make a deal like Stratos's 1.2% in-lieu fee and rebate structure possible at all. Without this, none of the rest works.</div></div>
+      </div>
+      <div class="tl-row">
+        <div class="tl-date">2025</div>
+        <div class="tl-body"><div class="t">SB 316 - let MIDA regulate its own environmental review, and move money out of the county</div><div class="d">Gave MIDA self-regulatory authority over environmental review of its own projects, and allowed project-area revenue to be redirected outside the county where it was generated.</div></div>
+      </div>
+      <div class="tl-row">
+        <div class="tl-date">2025</div>
+        <div class="tl-body"><div class="t">SB 132 - let large energy users skip the utility monopoly</div><div class="d">Sponsored by Scott Sandall. Let large energy users (100+ MW) bypass Rocky Mountain Power's normal utility monopoly and build their own "behind-the-meter" generation - the exact mechanism letting Stratos build its own gas plant and tie into Ruby Pipeline directly.</div></div>
+      </div>
+      <div class="tl-row">
+        <div class="tl-date">2026</div>
+        <div class="tl-body"><div class="t">HB 60 - narrowed the water rights standard</div><div class="d">Removed ecological and community-health considerations from the State Engineer's water-rights "public welfare" standard. Took effect May 6, 2026 - one day before Bar H Ranch withdrew its water application specifically to refile under the new, weaker rule.</div></div>
+      </div>
+    </div>
+
+    <div class="hypothesis-card" style="margin-top:20px;">
+      <div class="tag">In the simplest possible terms</div>
+      <p>Each one of these bills, on its own, looks like routine energy or water policy - the kind of thing that passes without much notice. Stacked in order, they're a build sequence: give MIDA the taxing power, give MIDA control of its own environmental review and let the money leave the county, let the project skip the normal utility process entirely, then weaken the water rule right as the water fight was happening. That's not four unrelated bills. That's the specific legal machinery that made this project possible.</p>
+    </div>
+  </section>
+
+  <section class="block" id="uktrip">
+    <div class="num-eyebrow">04J / THE UK NUCLEAR CONNECTION</div>
+    <h2 class="block-title">A formal state-to-state nuclear relationship, not a side trip</h2>
+    <p class="block-lede">Sandall's UK trip sits inside something bigger - an official, ongoing nuclear cooperation agreement between Utah and the UK government.</p>
+    <div class="timeline-wrap">
+      <div class="tl-row">
+        <div class="tl-date">Jun 2025</div>
+        <div class="tl-body"><div class="t">Utah delegation visits the UK</div><div class="d">Lt. Gov. Deidre Henderson led an official nuclear fact-finding trip that included Sen. Scott Sandall and Rep. Carl Albrecht. Sandall's own campaign account later reimbursed him $1,777 for it.</div></div>
+      </div>
+      <div class="tl-row">
+        <div class="tl-date">Sep 2025</div>
+        <div class="tl-body"><div class="t">Second annual UK-Utah working group meeting, Salt Lake City</div><div class="d">Held under a 2023 Memorandum of Understanding between the UK and Utah. The energy roundtable focused specifically on "shared priorities in the advanced civil nuclear sector," including nuclear fuels and mining. Both governments agreed to build a joint nuclear energy workplan and meet again in 2026.</div></div>
+      </div>
+      <div class="tl-row">
+        <div class="tl-date">Oct 2025</div>
+        <div class="tl-body"><div class="t">Utah's official Nuclear Consortium formed</div><div class="d">A new state panel to "guide Utah's nuclear strategy and advise on the best use of funding." Sandall sits on it, alongside Rep. Colin Jack and an Idaho National Lab scientist.</div></div>
+      </div>
+    </div>
+    <div class="source-block" style="margin-top:20px;">
+      <p style="margin:0 0 10px;">The Utah side of this relationship runs through the Governor's Center for International Business &amp; Diplomacy, directed by Franz Kolb - a state office not otherwise covered in this investigation, worth its own look.</p>
+      <p style="margin:0;">CONFIRMED: "Flagship Companies," the entity partnered with the state and TerraPower to explore siting a Natrium reactor in Utah, is a registered assumed name (DBA) for Building Construction Partners LLC - the same company that gave Stuart Adams $25,000 on July 21, 2026, nearly a month after he'd already lost his primary and had nothing left to gain from campaign support.</p>
+    </div>
+  </section>
+
+  <section class="block" id="protests">
+    <div class="num-eyebrow">04K / THE WATER FIGHT</div>
+    <h2 class="block-title">Thousands of protests, $60,000 in fees, and none of it refunded</h2>
+    <p class="block-lede">This is one of the only direct ways the public can formally object to a water rights change - and it comes at a real cost to the people doing it.</p>
+
+    <div class="stat-strip">
+      <div class="stat-box"><div class="n">~4,000</div><div class="l">protests filed against Bar H Ranch's application</div></div>
+      <div class="stat-box"><div class="n">$15</div><div class="l">nonrefundable cost per protest</div></div>
+      <div class="stat-box"><div class="n">~$70,000</div><div class="l">total paid by protesters across both applications, refunded to none of them</div></div>
+    </div>
+
+    <div class="hypothesis-card" style="margin-top:0;">
+      <div class="tag">In the simplest possible terms</div>
+      <p>Filing a formal objection to one of these water applications costs $15, and you don't get it back - win or lose. Nearly 4,000 people paid that fee to object to the first water application. When the developer withdrew that application rather than defend it, all that money still went to the state, and every one of those nearly 4,000 objections became meaningless overnight, because withdrawing and refiling starts the whole process over. The same thing happened again with a second application and about 700 more objections.</p>
+      <p>And going forward, a new state law makes it harder for ordinary objections to count at all. One advocate's advice for anyone still fighting this: stop relying on general public concern, and start finding the specific farmers and landowners nearby whose own property gives them legal standing the rest of the public no longer has.</p>
+    </div>
+
+    <div class="source-block">
+      <h3>Who's formally fighting this</h3>
+      <ul>
+        <li><b>Friends of Great Salt Lake</b> - filed a detailed protest challenging the claim that the water change causes "no consumptive loss," since the stream in question flows directly into the lake</li>
+        <li><b>Grow the Flow Utah</b> - runs StratosWatch.org, the main public tracking and organizing hub</li>
+        <li><b>Great Basin Water Network</b> - director Kyle Roerink</li>
+        <li><b>Utah Rivers Council</b> - executive director Zach Frankel</li>
+        <li><b>Center for Biological Diversity</b> - also filed opposition</li>
+      </ul>
+      <h3>A discrepancy nobody has explained</h3>
+      <p style="margin:0;">The project's own technical representative publicly said the developer needs 13,000 acre-feet of water total - 3,000 on-site plus 10,000 "under contract near Snowville." No water rights application matching that Snowville claim has ever shown up in the state's public records. Where that water is supposed to come from remains unaccounted for.</p>
+    </div>
+  </section>
+
+  <section class="block" id="pattern">
+    <div class="num-eyebrow">04L / A PATTERN, NOT A ONE-OFF</div>
+    <h2 class="block-title">MIDA has done this before</h2>
+    <p class="block-lede">Stratos isn't the first time a small, thin military justification has grown into something enormous. It's the second time - and the same authority is doing it a third way, through a sister agency.</p>
+
+    <div class="timeline-wrap">
+      <div class="tl-row">
+        <div class="tl-date">2007</div>
+        <div class="tl-body"><div class="t">MIDA is created to help save Hill Air Force Base</div><div class="d">The original mission: develop underused land near a real military base, to help it survive federal closure rounds.</div></div>
+      </div>
+      <div class="tl-row">
+        <div class="tl-date">~2012</div>
+        <div class="tl-body"><div class="t">A 40-acre "military recreation" project begins in Wasatch County</div><div class="d">Justified because the Air Force lost a small ski lodge during Olympic construction and wanted replacement discounted hotel rooms nearby.</div></div>
+      </div>
+      <div class="tl-row">
+        <div class="tl-date">2012-2025</div>
+        <div class="tl-body"><div class="t">That 40 acres becomes over 5,000 acres</div><div class="d">Through eight separate expansion amendments, it grew into most of the land around the Jordanelle Reservoir - now Deer Valley's massive East Village expansion and the SkyRidge community. The entire remaining military connection: about 100 discounted hotel rooms.</div></div>
+      </div>
+      <div class="tl-row">
+        <div class="tl-date">2026</div>
+        <div class="tl-body"><div class="t">The same playbook, third time, in Box Elder County</div><div class="d">Stratos uses the identical legal authority, an even thinner "national security" justification, at a far larger scale - 40,000 acres instead of 40.</div></div>
+      </div>
+    </div>
+
+    <div class="hypothesis-card" style="margin-top:20px;">
+      <div class="tag">In the simplest possible terms</div>
+      <p>A county official in Wasatch County described exactly how this works: you agree to a small, reasonable-sounding first step, and after that you lose the practical ability to say no to what comes next. That's not a one-time mistake - it's happened before, at massive scale, and it's happening again.</p>
+      <p>It's also not just MIDA. A sister state agency called the Utah Inland Port Authority runs on the identical model - state control, no local zoning say, a cut of the tax growth skimmed off for itself. The same person who's sat on MIDA's board since 2008 has also worked as a lobbyist for that agency. Different name, same tool, same small circle of people involved.</p>
+    </div>
+  </section>
+
+  <section class="block" id="sourcing">
+    <div class="num-eyebrow">05 / SOURCING &amp; STATUS</div>
+    <h2 class="block-title">What's confirmed, what isn't yet</h2>
+    <div class="source-block">
+      <h3>Confirmed, on the record</h3>
+      <ul>
+        <li>Ruby Pipeline contract term, step-down history, and evergreen clause: CPUC Resolution E-5280 (Oct 12, 2023), approving PG&amp;E Advice Letter 6932-E — public CPUC filing, no GRAMA required</li>
+        <li>Ruby Pipeline ownership: Tallgrass Energy, confirmed via SEC filings and Tallgrass's own site</li>
+        <li>MIDA approval sequence, Box Elder County vote, and Cox's executive order: dated public meeting minutes and the executive order text itself</li>
+        <li>Water right change applications and their withdrawal: Utah Division of Water Rights public records</li>
+      </ul>
+      <h3>Not yet confirmed</h3>
+      <ul>
+        <li>Whether PG&amp;E has moved toward exercising the evergreen extension since the October 2023 filing</li>
+        <li>Any corporate or PAC ties between Tallgrass Energy and the existing Utah political network already documented in this investigation</li>
+        <li>Job creation figures — construction estimates range from 4,000 to 10,000 across official sources, a 2.5x discrepancy</li>
+      </ul>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  BOX ELDER COUNTY RESEARCH · Built from source documents on file · Regenerate as new filings come in
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script>
+  const toggleContent = {
+    expert: "Energy infrastructure expert Scott Smith's May 27, 2026 analysis: Ruby's existing contracted capacity leaves insufficient gas supply for the project's minimum requirements, water rights on hand cover only about 25% of estimated cooling needs, and turbine procurement lead times push full buildout to a 10-15+ year horizon at an estimated $18-21 billion for power generation alone.",
+    developer: "Developers maintain the project is closed-loop with minimal ongoing water use, and have not publicly addressed the evergreen clause or PG&E's demonstrated pattern of retaining Ruby capacity rather than releasing it.",
+    gap: "The approval timeline assumed Ruby capacity frees up in October 2026. The contract PG&E actually holds lets them keep that capacity through 2036. No public document in the approval record accounts for that gap."
+  };
+  const btns = document.querySelectorAll('.toggle-btn');
+  const result = document.getElementById('toggleResult');
+  btns.forEach(b => {
+    b.addEventListener('click', () => {
+      btns.forEach(x => x.classList.remove('active'));
+      b.classList.add('active');
+      result.textContent = toggleContent[b.getAttribute('data-key')];
+    });
+  });
+
+  // ---- Forgone revenue calculator ----
+  const rubyValuation = document.getElementById('ruby-valuation');
+  const rubyRate = document.getElementById('ruby-rate');
+  const rubyPromised = document.getElementById('ruby-promised');
+  let rubyChart;
+
+  function computeRuby(){
+    const valuationB = Number(rubyValuation.value);
+    const rate = Number(rubyRate.value) / 100;
+    const promisedM = Number(rubyPromised.value);
+
+    const standardM = valuationB * 1000 * rate;
+    const gapM = standardM - promisedM;
+
+    document.getElementById('ruby-valuation-out').textContent = '$' + valuationB + 'B';
+    document.getElementById('ruby-rate-out').textContent = Number(rubyRate.value).toFixed(2) + '%';
+    document.getElementById('ruby-promised-out').textContent = '$' + promisedM + 'M';
+    document.getElementById('ruby-gap-out').textContent = '$' + Math.round(gapM).toLocaleString() + 'M/yr';
+
+    if(rubyChart){
+      rubyChart.data.datasets[0].data = [Math.round(standardM), promisedM];
+      rubyChart.update();
+    } else {
+      rubyChart = new Chart(document.getElementById('rubyGapChart'), {
+        type: 'bar',
+        data: {
+          labels: ['What standard taxation would generate', 'What is actually promised'],
+          datasets: [{
+            data: [Math.round(standardM), promisedM],
+            backgroundColor: ['#9c3b2e', '#3f6b4a'],
+            borderRadius: 4
+          }]
+        },
+        options: {
+          indexAxis: 'y',
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: { legend: { display: false },
+            tooltip: { callbacks: { label: (ctx) => '$' + Number(ctx.parsed.x).toLocaleString() + 'M/yr' } } },
+          scales: { x: { ticks: { callback: (v) => '$' + (v/1000).toFixed(1) + 'B' } } }
+        }
+      });
+    }
+  }
+  [rubyValuation, rubyRate, rubyPromised].forEach(el => el.addEventListener('input', computeRuby));
+  computeRuby();
+</script>
+
+</body>
+</html>
