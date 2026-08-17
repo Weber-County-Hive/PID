@@ -1,0 +1,1079 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Where Does Your School-Tax Dollar Go? | The Weber County Hive</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F2F0E8; --paper-deep:#E7E2D2; --ink:#1C2B39; --ink-2:#4C5D6B; --ink-3:#7C8A94;
+    --school:#2F6E52; --school-bg:#E2EBE3; --diversion:#963A26; --diversion-bg:#F1E1D8;
+    --flag:#8A6A15; --flag-bg:#F3EBD6;
+    --line:#C9C2AC; --white:#FBFAF6; --max:760px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:'Inter',sans-serif;line-height:1.6;-webkit-font-smoothing:antialiased;}
+  ::selection{background:var(--school);color:var(--white);}
+  .wrap{max-width:var(--max);margin:0 auto;padding:0 24px;}
+
+  header.masthead{border-bottom:1px solid var(--ink);padding:28px 24px 22px;background:var(--paper);}
+  .masthead-inner{max-width:var(--max);margin:0 auto;display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:8px;}
+  .brand{font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-2);}
+  .brand a{color:inherit;text-decoration:none;border-bottom:1px solid var(--ink-3);}
+  .doc-tag{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--diversion);}
+
+  .hero{padding:52px 24px 16px;}
+  .hero .eyebrow{font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-2);margin-bottom:14px;}
+  h1{font-family:'Fraunces',serif;font-optical-sizing:auto;font-weight:600;font-size:clamp(32px,5.4vw,50px);line-height:1.08;margin:0 0 18px;letter-spacing:-0.01em;}
+  .dek{font-size:18px;color:var(--ink-2);max-width:58ch;margin:0 0 8px;}
+
+  section{padding:44px 24px;}
+  section.alt{background:var(--paper-deep);}
+  h2{font-family:'Fraunces',serif;font-weight:600;font-size:clamp(22px,3.4vw,28px);margin:0 0 6px;letter-spacing:-.005em;}
+  .section-num{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--ink-3);letter-spacing:.08em;margin-bottom:8px;display:block;}
+  p{margin:0 0 16px;font-size:16px;}
+  .lede{font-size:17px;color:var(--ink-2);}
+  h4.sub{font-family:'Fraunces',serif;font-size:17px;font-weight:600;margin:26px 0 4px;}
+
+  .starthere{background:var(--white);border-top:3px solid var(--school);border-bottom:1px solid var(--ink);padding:40px 24px 44px;}
+  .starthere .badge{display:inline-block;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--white);background:var(--school);padding:5px 10px;margin-bottom:16px;}
+  .starthere h2{font-size:clamp(24px,4vw,32px);margin-bottom:12px;}
+  .starthere .plain{font-size:18.5px;line-height:1.65;max-width:60ch;margin-bottom:18px;}
+  .plain-steps{counter-reset:pstep;margin:26px 0 8px;padding:0;list-style:none;}
+  .plain-steps li{position:relative;padding-left:52px;margin-bottom:22px;}
+  .plain-steps li::before{counter-increment:pstep;content:counter(pstep);position:absolute;left:0;top:1px;width:34px;height:34px;border-radius:50%;background:var(--school-bg);border:1.5px solid var(--school);color:var(--school);font-family:'IBM Plex Mono',monospace;font-size:14px;font-weight:600;display:flex;align-items:center;justify-content:center;}
+  .plain-steps strong{display:block;font-size:17px;margin-bottom:3px;}
+  .plain-steps span{font-size:16px;color:var(--ink-2);}
+  .plain-bottom{border-top:1px solid var(--line);margin-top:26px;padding-top:22px;}
+  .plain-bottom .oneline{font-family:'Fraunces',serif;font-size:19px;font-weight:500;line-height:1.45;margin:0 0 18px;}
+  .keep-going-row{display:flex;flex-wrap:wrap;gap:12px;margin-top:4px;}
+  .keep-going{display:inline-flex;align-items:center;justify-content:center;font-family:'IBM Plex Mono',monospace;font-size:12.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink);text-decoration:none;border:1px solid var(--ink);padding:12px 18px;background:var(--paper);cursor:pointer;max-width:100%;-webkit-appearance:none;appearance:none;border-radius:0;line-height:1.2;text-align:center;margin:0;}
+  .keep-going:hover{background:var(--ink);color:var(--white);}
+  .keep-going:focus-visible{outline:3px solid var(--school);outline-offset:2px;}
+  .keep-going.alt2{border-color:var(--diversion);color:var(--diversion);}
+  .keep-going.alt2:hover{background:var(--diversion);color:var(--white);}
+
+  .depth-divider{max-width:var(--max);margin:0 auto;padding:34px 24px 0;font-family:'IBM Plex Mono',monospace;font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);display:flex;align-items:center;gap:14px;}
+  .depth-divider::after{content:'';flex:1;height:1px;background:var(--line);}
+
+  .source-bar{display:flex;width:100%;height:46px;border:1px solid var(--ink);margin:22px 0 10px;overflow:hidden;}
+  .source-bar span{display:flex;align-items:center;justify-content:center;font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--white);}
+  .src-state{background:var(--ink);width:64%;}
+  .src-local{background:var(--school);width:24%;}
+  .src-fed{background:var(--ink-3);width:12%;}
+  .source-key{display:flex;gap:18px;flex-wrap:wrap;font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--ink-2);margin-bottom:20px;}
+  .source-key .dot{display:inline-block;width:9px;height:9px;margin-right:6px;vertical-align:middle;}
+
+  .levy-list{border-top:1px solid var(--line);margin-top:22px;}
+  .levy{display:grid;grid-template-columns:150px 1fr;gap:18px;padding:16px 0;border-bottom:1px solid var(--line);}
+  .levy .name{font-family:'IBM Plex Mono',monospace;font-size:13px;font-weight:600;color:var(--ink);line-height:1.4;}
+  .levy .desc{font-size:14.5px;color:var(--ink-2);margin:0;}
+  .levy.protected .name{color:var(--school);}
+  .tag-protected{display:inline-block;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.06em;text-transform:uppercase;background:var(--school-bg);color:var(--school);padding:2px 6px;margin-top:6px;border:1px solid var(--school);}
+  @media (max-width:520px){.levy{grid-template-columns:1fr;}}
+
+  .fork-wrap{margin:36px 0 8px;background:var(--white);border:1px solid var(--ink);padding:24px 18px 10px;}
+  .fork-caption{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--ink-3);text-align:center;margin-top:6px;letter-spacing:.04em;}
+  svg.fork{width:100%;height:auto;display:block;}
+  .fork-label{font-family:'IBM Plex Mono',monospace;font-size:11.5px;fill:var(--ink-2);}
+  .fork-label-strong{font-family:'Inter',sans-serif;font-weight:700;font-size:14px;fill:var(--ink);}
+  .fork-label-school{fill:var(--school);font-weight:700;font-family:'Inter',sans-serif;font-size:13px;}
+  .fork-label-diversion{fill:var(--diversion);font-weight:700;font-family:'Inter',sans-serif;font-size:13px;}
+
+  .callout{border:1px solid var(--ink);background:var(--white);padding:22px 22px 20px;margin:26px 0;}
+  .callout .tag{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--school);margin-bottom:10px;display:block;}
+  .callout.warn .tag{color:var(--diversion);}
+  .callout.flag{border-left:5px solid var(--flag);background:var(--flag-bg);}
+  .callout.flag .tag{color:var(--flag);}
+  .callout p:last-child{margin-bottom:0;}
+  .stat{font-family:'IBM Plex Mono',monospace;font-size:13px;color:var(--ink-2);background:var(--paper-deep);padding:2px 6px;}
+  .callout.flag .stat{background:#E6DCBE;}
+
+  .dcards{margin:26px 0 8px;}
+  .dcard{border:1px solid var(--ink);background:var(--white);margin-bottom:16px;}
+  .dcard-head{display:flex;justify-content:space-between;align-items:baseline;gap:12px;padding:14px 18px;border-bottom:1px solid var(--line);flex-wrap:wrap;}
+  .dcard-head .abbr{font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:14px;letter-spacing:.04em;}
+  .dcard-head .full{font-size:13px;color:var(--ink-2);}
+  .dcard-body{padding:16px 18px 18px;}
+  .drow{display:grid;grid-template-columns:132px 1fr;gap:14px;padding:8px 0;border-bottom:1px dotted var(--line);}
+  .drow:last-child{border-bottom:none;}
+  .drow .k{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-3);padding-top:2px;}
+  .drow .v{font-size:14.5px;}
+  @media (max-width:540px){.drow{grid-template-columns:1fr;gap:2px;}}
+  .verdict{display:inline-block;font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;padding:3px 8px;border:1px solid;}
+  .v-safe{color:var(--school);border-color:var(--school);background:var(--school-bg);}
+  .v-hit{color:var(--diversion);border-color:var(--diversion);background:var(--diversion-bg);}
+  .v-open{color:var(--flag);border-color:var(--flag);background:var(--flag-bg);}
+
+  .bonds{margin:26px 0 10px;border:1px solid var(--ink);background:var(--white);}
+  .bond-row{display:grid;grid-template-columns:1fr 1fr;}
+  .bond-cell{padding:18px;border-right:1px solid var(--line);}
+  .bond-cell:last-child{border-right:none;}
+  .bond-cell h4{font-family:'Fraunces',serif;font-size:16px;font-weight:600;margin:0 0 4px;}
+  .bond-cell .vote{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.06em;text-transform:uppercase;margin-bottom:10px;display:block;}
+  .vote-yes{color:var(--school);}
+  .vote-no{color:var(--diversion);}
+  .bond-cell p{font-size:14px;color:var(--ink-2);margin:0;}
+  @media (max-width:600px){.bond-row{grid-template-columns:1fr;} .bond-cell{border-right:none;border-bottom:1px solid var(--line);} .bond-cell:last-child{border-bottom:none;}}
+
+  .casefile{border:1px solid var(--ink);background:var(--white);margin:28px 0 10px;}
+  .cf-head{background:var(--ink);color:var(--white);padding:16px 20px;}
+  .cf-head .cf-kicker{font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;opacity:.75;display:block;margin-bottom:5px;}
+  .cf-head h3{font-family:'Fraunces',serif;font-size:19px;font-weight:600;margin:0;}
+  .cf-meta{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));border-bottom:1px solid var(--line);}
+  .cf-meta div{padding:12px 16px;border-right:1px solid var(--line);}
+  .cf-meta div:last-child{border-right:none;}
+  .cf-meta .k{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);display:block;margin-bottom:3px;}
+  .cf-meta .v{font-size:14px;font-weight:600;}
+  .cf-body{padding:20px;}
+  details.cf-body{padding:0;}
+  details.cf-body > summary{cursor:pointer;padding:14px 20px;font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.03em;color:var(--diversion);background:var(--paper);border-bottom:1px solid var(--line);list-style:none;}
+  details.cf-body > summary::-webkit-details-marker{display:none;}
+  details.cf-body > summary::before{content:'\25B8  ';font-weight:700;}
+  details.cf-body[open] > summary::before{content:'\25BE  ';}
+  details.cf-body > summary:hover{background:var(--diversion-bg);}
+  details.cf-body > summary:focus-visible{outline:3px solid var(--school);outline-offset:-3px;}
+  details.cf-body > *:not(summary){margin-left:20px;margin-right:20px;}
+  details.cf-body > *:first-of-type{margin-top:18px;}
+  details.cf-body{padding-bottom:18px;}
+
+  /* the one-thing box */
+  .onething{border:2px solid var(--ink);background:var(--paper-deep);padding:24px 22px;margin:26px 0 8px;}
+  .onething .lab{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-2);display:block;margin-bottom:14px;}
+  .ot-bars{margin:6px 0 4px;}
+  .ot-row{display:flex;align-items:center;gap:12px;margin-bottom:9px;}
+  .ot-row .who{width:132px;font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:var(--ink-2);line-height:1.3;}
+  .ot-row .bar{height:30px;display:flex;align-items:center;padding-left:10px;font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--white);white-space:nowrap;}
+  .ot-row .bar.half{background:var(--diversion);}
+  .ot-row .bar.full{background:var(--school);}
+  .onething p{font-size:16.5px;margin:16px 0 0;}
+  @media (max-width:560px){.ot-row{flex-wrap:wrap;} .ot-row .who{width:100%;}}
+
+  /* glossary */
+  .gloss{border:1px solid var(--ink);background:var(--white);margin:24px 0 8px;}
+  .gloss dl{margin:0;}
+  .gloss div{display:grid;grid-template-columns:150px 1fr;gap:16px;padding:13px 18px;border-bottom:1px solid var(--line);}
+  .gloss div:last-child{border-bottom:none;}
+  .gloss dt{font-family:'IBM Plex Mono',monospace;font-size:12.5px;font-weight:600;color:var(--ink);margin:0;}
+  .gloss dd{margin:0;font-size:15px;color:var(--ink-2);}
+  @media (max-width:540px){.gloss div{grid-template-columns:1fr;gap:3px;}}
+
+  .frozen{border:1px solid var(--line);margin:4px 0 22px;}
+  .frozen-row{display:grid;grid-template-columns:1fr auto;gap:14px;padding:11px 16px;border-bottom:1px solid var(--line);font-size:14.5px;}
+  .frozen-row:last-child{border-bottom:none;}
+  .frozen-row.hilite{background:var(--diversion-bg);}
+  .frozen-row.ok{background:var(--school-bg);}
+  .frozen-row.total{background:var(--paper-deep);font-weight:600;}
+  .frozen-row .n{font-family:'IBM Plex Mono',monospace;font-weight:600;white-space:nowrap;}
+  .frozen-row small{display:block;font-size:12.5px;color:var(--ink-2);font-weight:400;}
+
+  .ratestack{display:flex;width:100%;height:40px;border:1px solid var(--ink);overflow:hidden;margin:6px 0 8px;}
+  .ratestack span{display:flex;align-items:center;justify-content:center;font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--white);overflow:hidden;white-space:nowrap;}
+  .rs-alpine{background:var(--diversion);}
+  .rs-fire{background:#6E5A46;}
+  .rs-county{background:var(--ink-2);}
+  .rs-city{background:var(--ink-3);}
+  .rs-water{background:#9EA9A2;}
+  .ratekey{font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:var(--ink-2);line-height:1.9;margin-bottom:4px;}
+  .ratekey .sw{display:inline-block;width:9px;height:9px;margin-right:6px;vertical-align:middle;}
+
+  .flowbar{margin:8px 0 6px;}
+  .flowbar .fb-track{display:flex;height:34px;border:1px solid var(--ink);overflow:hidden;}
+  .flowbar .fb-div{background:var(--diversion);}
+  .flowbar .fb-keep{background:var(--school);}
+  .flowbar .fb-track span{display:flex;align-items:center;justify-content:center;font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--white);}
+  .flowlegend{display:flex;justify-content:space-between;font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:var(--ink-2);margin-top:6px;flex-wrap:wrap;gap:8px;}
+
+  .bignum{border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:20px 0;margin:24px 0;text-align:center;}
+  .bignum .num{font-family:'Fraunces',serif;font-size:clamp(26px,5.2vw,40px);font-weight:600;color:var(--diversion);line-height:1.05;display:block;}
+  .bignum .cap{font-size:14px;color:var(--ink-2);margin-top:8px;display:block;max-width:46ch;margin-left:auto;margin-right:auto;}
+
+  /* three-way compare */
+  .tw{width:100%;border:1px solid var(--ink);background:var(--white);border-collapse:collapse;margin:26px 0 8px;font-size:13.5px;}
+  .tw th,.tw td{border:1px solid var(--line);padding:10px 12px;text-align:left;vertical-align:top;}
+  .tw thead th{background:var(--ink);color:var(--white);font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.05em;text-transform:uppercase;font-weight:600;}
+  .tw tbody th{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-3);font-weight:600;background:var(--paper);width:112px;}
+  .tw-wrap{overflow-x:auto;}
+  .tw td.hit{background:var(--diversion-bg);font-weight:600;}
+
+  footer{padding:44px 24px 60px;border-top:1px solid var(--ink);}
+  footer .wrap{font-size:13.5px;color:var(--ink-2);}
+  footer a{color:var(--ink);}
+  .source-list{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--ink-2);line-height:2;margin-top:10px;}
+  h3.inline{font-family:'Fraunces',serif;font-weight:600;font-size:19px;margin:0 0 10px;}
+  .fine{font-size:13px;color:var(--ink-3);}
+
+  section,#baseline,#fork,#alphabet,#bonds,#casefile,#weber,#meaning{scroll-margin-top:24px;}
+
+  /* conclusion */
+  .plainbox{background:var(--white);border:1px solid var(--ink);border-top:3px solid var(--school);padding:28px 26px 26px;margin:26px 0;}
+  .plainbox .badge{display:inline-block;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--white);background:var(--school);padding:5px 10px;margin-bottom:14px;}
+  .plainbox h3{font-family:'Fraunces',serif;font-size:clamp(20px,3.2vw,25px);font-weight:600;margin:0 0 12px;}
+  .plainbox p{font-size:17.5px;line-height:1.6;max-width:62ch;}
+  .plainbox p:last-child{margin-bottom:0;}
+  .deepbox{border:1px solid var(--ink);background:var(--paper);padding:28px 26px 26px;margin:26px 0;}
+  .deepbox .badge{display:inline-block;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--white);background:var(--ink);padding:5px 10px;margin-bottom:14px;}
+  .deepbox h3{font-family:'Fraunces',serif;font-size:clamp(20px,3.2vw,25px);font-weight:600;margin:0 0 12px;}
+  .findings{counter-reset:fnd;list-style:none;padding:0;margin:20px 0 0;}
+  .findings li{position:relative;padding-left:44px;margin-bottom:20px;}
+  .findings li::before{counter-increment:fnd;content:counter(fnd);position:absolute;left:0;top:2px;width:28px;height:28px;background:var(--ink);color:var(--white);font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:600;display:flex;align-items:center;justify-content:center;}
+  .findings strong{display:block;font-size:16px;margin-bottom:3px;}
+  .qlist{list-style:none;padding:0;margin:22px 0 0;counter-reset:q;}
+  .qlist li{border-top:1px solid var(--line);padding:18px 0 14px;}
+  .qlist li:last-child{border-bottom:1px solid var(--line);}
+  .qlist .q{font-family:'Fraunces',serif;font-size:18px;font-weight:600;line-height:1.35;margin:0 0 8px;display:block;}
+  .qlist .q::before{counter-increment:q;content:counter(q) ". ";font-family:'IBM Plex Mono',monospace;font-size:13px;font-weight:600;color:var(--diversion);}
+  .qlist .basis{font-size:14.5px;color:var(--ink-2);margin:0;}
+  .qlist .basis b{color:var(--ink);font-weight:600;}
+  .findings span{font-size:15px;color:var(--ink-2);}
+  @media (prefers-reduced-motion: reduce){*{transition:none !important;scroll-behavior:auto !important;}}
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="masthead-inner">
+    <div class="brand"><a href="https://webercountyhive.substack.com" target="_blank" rel="noopener">The Weber County Hive</a></div>
+    <div class="doc-tag">Public records explainer &middot; PIDs &amp; Tax</div>
+  </div>
+</header>
+
+<div class="hero">
+  <div class="wrap">
+    <div class="eyebrow">How Utah pays for schools &middot; what districts and bonds change</div>
+    <h1>Where does your school-tax dollar actually go?</h1>
+    <p class="dek">Start with the plain-language version. Everything below it goes deeper, at your pace &mdash; ending in three real Utah project areas, line by line.</p>
+  </div>
+</div>
+
+<!-- ================= START HERE ================= -->
+<div class="starthere">
+  <div class="wrap">
+    <span class="badge">New to this? Start here</span>
+    <h2>The whole thing in four steps</h2>
+    <p class="plain">You pay property tax on your house. Part of it goes to your school district. That's the simple version &mdash; and for most homes, it's the true version. But some land in Utah sits inside a special district, and there the money takes a detour. Separately, schools can now borrow large sums without asking voters.</p>
+
+    <ol class="plain-steps">
+      <li>
+        <strong>Your property gets a value.</strong>
+        <span>The county decides what your property is worth. Tax rates get applied to that value. Schools, the county, the fire district, and a few others each get a share.</span>
+      </li>
+      <li>
+        <strong>Some land gets put inside a special district.</strong>
+        <span>A city, county, or state board can draw a boundary around an area and create one of several things &mdash; an RDA, a CRA, an HTRZ, a PID, a MIDA or inland port project area. Different initials, two basic moves: redirect the tax growth, or add a new charge.</span>
+      </li>
+      <li>
+        <strong>Inside that boundary, the growth gets redirected.</strong>
+        <span>The district freezes the property's value at whatever it was the year the district was created. Taxes on that frozen amount keep flowing normally. But taxes on everything the property grows to be worth <em>after</em> that &mdash; the "increment" &mdash; go to the district instead, for 15, 25, even 40 years.</span>
+      </li>
+      <li>
+        <strong>Meanwhile, schools borrow &mdash; sometimes without a vote.</strong>
+        <span>The bond you vote on in November is one kind. There's another kind, a lease revenue bond, that a school board can approve on its own with no election. In 2025 the Legislature removed the cap on how much of that a district can issue.</span>
+      </li>
+    </ol>
+
+    <div class="plain-bottom">
+      <p class="oneline">Three project areas on this page show the answer isn't theoretical. In each one, a school district signed an agreement handing over a share of its own future growth.</p>
+      <p class="plain" style="font-size:17px;">Alpine School District: <strong>$13.5 million</strong> over 20 years to a data center site in Eagle Mountain. Weber School District: <strong>50%</strong> of its increment for 15 years to the Nordic Village resort project. And in West Weber, the state inland port's own paperwork puts <strong>$343 million</strong> of projected diverted growth on the table over 25 years.</p>
+      <div class="onething">
+        <span class="lab">If you remember one number, remember this one</span>
+        <div class="ot-bars">
+          <div class="ot-row">
+            <div class="who">During the deal<br>2027&ndash;2041</div>
+            <div class="bar half" style="width:44%">$428,158 a year</div>
+          </div>
+          <div class="ot-row">
+            <div class="who">After it ends<br>2042 onward</div>
+            <div class="bar full" style="width:88%">$856,315 a year</div>
+          </div>
+        </div>
+        <p>Those are the Weber Fire District's own published figures for the Nordic Village project, from the agency's financial model. Same land, same tax rate, same development. The payment <strong>doubles</strong> the year the agreement expires &mdash; because for fifteen years, exactly half of it was going somewhere else. Weber School District signed at the same 50%.</p>
+        <p>That is the entire mechanism. Everything below is the same thing, at different sizes, under different names.</p>
+      </div>
+
+      <h3 style="font-family:'Fraunces',serif;font-size:19px;font-weight:600;margin:34px 0 4px;">Six words you'll need, in plain English</h3>
+      <div class="gloss">
+        <dl>
+          <div><dt>Base year</dt><dd>The year a boundary gets drawn. Your property's value on that date is frozen for the length of the deal.</dd></div>
+          <div><dt>Increment</dt><dd>Everything the property becomes worth above that frozen value. This is the part that gets redirected.</dd></div>
+          <div><dt>TIF</dt><dd>Tax increment financing. The practice of redirecting that growth to pay for construction instead of to schools, fire and county.</dd></div>
+          <div><dt>CRA / RDA</dt><dd>The agency a city or county sets up to collect and spend the redirected growth.</dd></div>
+          <div><dt>PID</dt><dd>A brand-new mini-government layered on the same land, with its own board and its own charge added to the tax bill. Often borrows against the redirected growth.</dd></div>
+          <div><dt>Interlocal agreement</dt><dd>The contract where a school district, fire district or county actually signs away its share. This is the document that decides everything.</dd></div>
+        </dl>
+      </div>
+
+      <div class="keep-going-row">
+        <button type="button" class="keep-going alt2" data-scroll-to="casefile">Show me the numbers &darr;</button>
+        <button type="button" class="keep-going" data-scroll-to="baseline">Start from the basics &darr;</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="depth-divider">The detailed version</div>
+
+<section id="baseline">
+  <div class="wrap">
+    <span class="section-num">01 &mdash; THE ORDINARY LEDGER</span>
+    <h2>How a school district gets paid, on a parcel with no district over it</h2>
+    <p class="lede">Utah public schools are funded from three pools. Statewide, roughly two-thirds is state money, about a quarter is local property tax, and the rest is federal.</p>
+
+    <div class="source-bar">
+      <span class="src-state">STATE &middot; ~64%</span>
+      <span class="src-local">LOCAL &middot; ~24%</span>
+      <span class="src-fed">FED &middot; ~12%</span>
+    </div>
+    <div class="source-key">
+      <span><span class="dot" style="background:var(--ink)"></span>State (income tax, Uniform School Fund)</span>
+      <span><span class="dot" style="background:var(--school)"></span>Local (property tax, six levies)</span>
+      <span><span class="dot" style="background:var(--ink-3)"></span>Federal (restricted-use)</span>
+    </div>
+
+    <p>The local slice comes from six property tax rates a school board can levy. Remember this list &mdash; section 06 shows exactly which of the six the state inland port is allowed to capture.</p>
+
+    <div class="levy-list">
+      <div class="levy protected">
+        <div class="name">Basic Levy<span class="tag-protected">Statutory carve-out in 17C</span></div>
+        <p class="desc">A uniform rate every district must impose, set statewide to raise a fixed total each year. It's the district's required contribution to the Minimum School Program &mdash; the more it raises, the less the state has to send. Exempt from the annual "truth in taxation" recalculation that applies to most other levies.</p>
+      </div>
+      <div class="levy protected">
+        <div class="name">Voted &amp; Board Local Levy<span class="tag-protected">Statutory carve-out in 17C</span></div>
+        <p class="desc">Discretionary rates &mdash; one needs voter approval, one needs only board approval. The state guarantees a minimum yield per student for these, topping off districts with lower property values so a given tax rate raises roughly the same money per pupil statewide.</p>
+      </div>
+      <div class="levy">
+        <div class="name">Capital Local Levy</div>
+        <p class="desc">Funds buildings and capital projects. Board-approved, not guaranteed by the state.</p>
+      </div>
+      <div class="levy">
+        <div class="name">Debt Service Levy</div>
+        <p class="desc">Pays down voter-approved general obligation bonds. Set by the size of the bond, not district discretion.</p>
+      </div>
+      <div class="levy">
+        <div class="name">Judgment Recovery Levy</div>
+        <p class="desc">A narrow rate used to cover court-ordered property tax refunds.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="alt" id="fork">
+  <div class="wrap">
+    <span class="section-num">02 &mdash; THE FORK</span>
+    <h2>What changes once a parcel sits inside a project area</h2>
+    <p class="lede">When a project area is created, the parcel's tax picture splits. Everything above traces the left-hand path. This is the right-hand path.</p>
+
+    <div class="fork-wrap">
+      <svg class="fork" viewBox="0 0 680 440" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Diagram: a property tax bill splits at the point a project area is created. Outside the district, all growth in value is taxed normally and shared by schools, county, fire and water levies. Inside the district, value above the frozen base year is captured by the agency, port, or PID board for 15 to 40 years.">
+          <!-- trunk -->
+          <text x="340" y="24" text-anchor="middle" class="fork-label-strong">Property tax bill, assessed value</text>
+          <text x="340" y="44" text-anchor="middle" class="fork-label">county sets rates &#183; parcel is taxed</text>
+          <line x1="340" y1="56" x2="340" y2="76" stroke="#1C2B39" stroke-width="2"/>
+
+          <!-- the freeze -->
+          <rect x="180" y="76" width="320" height="36" fill="none" stroke="#1C2B39" stroke-width="1.5"/>
+          <text x="340" y="99" text-anchor="middle" class="fork-label" style="font-weight:600;">Project area created, base year frozen</text>
+
+          <!-- split -->
+          <path d="M340,112 C340,152 145,146 145,186" stroke="#2F6E52" stroke-width="2" fill="none"/>
+          <path d="M340,112 C340,152 535,146 535,186" stroke="#963A26" stroke-width="2" fill="none"/>
+
+          <!-- LEFT: outside -->
+          <text x="145" y="206" text-anchor="middle" class="fork-label-school">Parcel outside the district</text>
+          <rect x="20" y="218" width="250" height="54" fill="#E2EBE3" stroke="#2F6E52" stroke-width="1.5"/>
+          <text x="145" y="241" text-anchor="middle" class="fork-label" style="fill:#1C2B39;">All growth in value taxed</text>
+          <text x="145" y="259" text-anchor="middle" class="fork-label" style="fill:#1C2B39;">normally, every year</text>
+          <line x1="145" y1="272" x2="145" y2="304" stroke="#2F6E52" stroke-width="2"/>
+          <rect x="20" y="304" width="250" height="72" fill="none" stroke="#2F6E52" stroke-width="1.5"/>
+          <text x="145" y="327" text-anchor="middle" class="fork-label-school" style="font-size:12px;">School, county, fire,</text>
+          <text x="145" y="345" text-anchor="middle" class="fork-label-school" style="font-size:12px;">water &amp; other levies</text>
+          <text x="145" y="364" text-anchor="middle" class="fork-label" style="font-size:10.5px;">all get the growth, same year</text>
+          <line x1="145" y1="376" x2="145" y2="398" stroke="#2F6E52" stroke-width="1.5" stroke-dasharray="3,3"/>
+          <text x="145" y="418" text-anchor="middle" class="fork-label" style="font-size:11px;">Full growth funds services</text>
+
+          <!-- RIGHT: inside -->
+          <text x="535" y="206" text-anchor="middle" class="fork-label-diversion">Parcel inside the district</text>
+          <rect x="410" y="218" width="250" height="54" fill="#F1E1D8" stroke="#963A26" stroke-width="1.5"/>
+          <text x="535" y="241" text-anchor="middle" class="fork-label" style="fill:#1C2B39;">Value above the frozen</text>
+          <text x="535" y="259" text-anchor="middle" class="fork-label" style="fill:#1C2B39;">base year = "the increment"</text>
+          <line x1="535" y1="272" x2="535" y2="304" stroke="#963A26" stroke-width="2"/>
+          <rect x="410" y="304" width="250" height="72" fill="none" stroke="#963A26" stroke-width="1.5"/>
+          <text x="535" y="327" text-anchor="middle" class="fork-label-diversion" style="font-size:12px;">Agency, port, or PID</text>
+          <text x="535" y="345" text-anchor="middle" class="fork-label-diversion" style="font-size:12px;">for 15&#8211;40 years</text>
+          <text x="535" y="364" text-anchor="middle" class="fork-label" style="font-size:10.5px;">not the entities that grew it</text>
+          <line x1="535" y1="376" x2="535" y2="398" stroke="#963A26" stroke-width="1.5" stroke-dasharray="3,3"/>
+          <text x="535" y="418" text-anchor="middle" class="fork-label" style="font-size:11px;">Growth repays project bonds</text>
+        </svg>
+    </div>
+    <p class="fork-caption">simplified &middot; the school-levy treatment differs by district type &mdash; see sections 03 and 06</p>
+
+    <div class="callout">
+      <span class="tag">The 2017 carve-out, as written</span>
+      <p>Under the Community Reinvestment Agency Act, "adjusted tax increment" excludes certain school revenue. S.B. 142 of the 2017 General Session (primary sponsor Sen. Lincoln Fillmore) addressed the Voted Local Levy, the Board Local Levy, and the minimum Basic Levy in relation to tax increment <span class="stat">Utah Code &sect; 17C-1-102, &sect; 17C-1-406</span>. The intent commonly cited for it is that growth in those school rates shouldn't be captured by an agency the way a city's or county's general-fund levy can be.</p>
+    </div>
+
+    <div class="callout flag">
+      <span class="tag">But watch what the real agreements do</span>
+      <p>Two of the three case files below are Title 17C community reinvestment areas &mdash; the kind the carve-out is supposed to cover. In Eagle Mountain, the adopted budget applies Alpine School District's <em>full</em> combined rate at the same percentage as every other entity. In Weber County, Weber School District signed an interlocal agreement handing over 50% of its increment for 15 years. Whether districts are consenting to include the protected levies, or the carve-out operates differently than plain-language summaries suggest, is the single most important question on this page. The signed interlocal agreements are the records that would answer it.</p>
+    </div>
+
+    <div class="callout warn">
+      <span class="tag">Who votes on it</span>
+      <p>Before an agency can capture any entity's increment, a taxing entity committee has to approve the project area budget. School districts sit on that committee &mdash; but typically hold only 2 of its 8 seats, so they can be outvoted by the cities, counties, and special districts that stand to benefit. Actual participation is then locked in by a separate interlocal agreement, entity by entity. Once notice of that agreement is published, there is a 30-day window to contest it &mdash; after which, by statute, it can't be challenged.</p>
+    </div>
+  </div>
+</section>
+
+<section id="alphabet">
+  <div class="wrap">
+    <span class="section-num">03 &mdash; THE ALPHABET SOUP</span>
+    <h2>Five kinds of district, and what each one does to school money</h2>
+    <p class="lede">These get used interchangeably in public meetings and press releases, but they sit in different chapters of Utah Code, are created by different bodies, and treat school money differently. The question to ask each time isn't "is this a TIF?" &mdash; it's "which chapter, and what does the signed agreement say?"</p>
+
+    <div class="dcards">
+
+      <div class="dcard">
+        <div class="dcard-head">
+          <span class="abbr">RDA / CRA / URA</span>
+          <span class="full">Title 17C &mdash; Community Reinvestment Agency Act</span>
+        </div>
+        <div class="dcard-body">
+          <div class="drow"><div class="k">What it is</div><div class="v">The original tool. Redevelopment agencies, urban renewal areas, community reinvestment areas, and economic development areas all live here. A base year is frozen and increment above it goes to the agency.</div></div>
+          <div class="drow"><div class="k">Created by</div><div class="v">A city or county, with a taxing entity committee approving the project area budget, then a separate interlocal agreement with each participating entity.</div></div>
+          <div class="drow"><div class="k">Term</div><div class="v">Commonly 15&ndash;20 years per phase; Title 17C allows up to 40 years across all phases.</div></div>
+          <div class="drow"><div class="k">Schools</div><div class="v"><span class="verdict v-hit">Yes, in practice</span> A statutory carve-out exists on paper for the Basic, Voted and Board levies. Both CRA case files below show school districts nonetheless committing large shares of their own increment. The interlocal agreement, not the statute summary, is what governs.</div></div>
+        </div>
+      </div>
+
+      <div class="dcard">
+        <div class="dcard-head">
+          <span class="abbr">PID</span>
+          <span class="full">Title 17D, Ch. 4 &mdash; Public Infrastructure District Act</span>
+        </div>
+        <div class="dcard-body">
+          <div class="drow"><div class="k">What it is</div><div class="v">A new local government entity layered onto the same parcels, with its own board, its own bonding power, and its own mill levy or assessment on top of every existing tax.</div></div>
+          <div class="drow"><div class="k">Created by</div><div class="v">A city, county, or a state authority such as MIDA or the inland port, on petition of the property owners &mdash; who, at creation, are usually the developer.</div></div>
+          <div class="drow"><div class="k">Term</div><div class="v">As long as the bonds run, commonly 30 years or more.</div></div>
+          <div class="drow"><div class="k">Schools</div><div class="v"><span class="verdict v-hit">Not directly &mdash; but check what's stacked with it</span> A PID's own levy is a new charge, not a capture of school money. But PIDs are routinely paired with a CRA or a port project area on the same land, and PID bonds are repaid from the diverted increment those produce. Nordic Village and West Weber both work this way. The PID is the borrowing vehicle; the school district's increment is part of what services the debt.</div></div>
+        </div>
+      </div>
+
+      <div class="dcard">
+        <div class="dcard-head">
+          <span class="abbr">UIPA</span>
+          <span class="full">Title 11, Ch. 58 &mdash; Utah Inland Port Authority Act</span>
+        </div>
+        <div class="dcard-body">
+          <div class="drow"><div class="k">What it is</div><div class="v">A state-controlled authority that creates project areas anywhere in Utah on request of a county or city, takes a share of "property tax differential," makes infrastructure loans, and sponsors PIDs beneath itself.</div></div>
+          <div class="drow"><div class="k">Created by</div><div class="v">The Legislature. Individual project areas are adopted by the UIPA board in a public meeting, with written consent from the county or city &mdash; not by voters, and not by the school district.</div></div>
+          <div class="drow"><div class="k">Term</div><div class="v">75% of differential for 25 years, extendable by another 15 years by board resolution &mdash; up to 40 years total.</div></div>
+          <div class="drow"><div class="k">Schools</div><div class="v"><span class="verdict v-hit">Four of six school levies capturable</span> UIPA's own definition of "property tax differential" excludes only three things: an assessing and collecting levy, a judgment levy, and a levy for a general obligation bond. Basic, Voted Local, Board Local, and Capital Local are all inside the capture. See section 06.</div></div>
+        </div>
+      </div>
+
+      <div class="dcard">
+        <div class="dcard-head">
+          <span class="abbr">HTRZ</span>
+          <span class="full">Title 63N, Ch. 3, Part 6 &mdash; Housing and Transit Reinvestment Zone Act</span>
+        </div>
+        <div class="dcard-body">
+          <div class="drow"><div class="k">What it is</div><div class="v">A zone around a rail or bus rapid transit station, created to make dense mixed-use housing pencil out. Captures a share of every taxing entity's property tax increment.</div></div>
+          <div class="drow"><div class="k">Created by</div><div class="v">A state-level HTRZ committee chaired by the Governor's Office of Economic Opportunity, with four seats appointed by legislative leadership (two by the Senate president, two by the House speaker) and two designated by the affected school superintendent.</div></div>
+          <div class="drow"><div class="k">Term</div><div class="v">Up to 80% of increment, for up to 25 consecutive years per parcel within a 45-year window.</div></div>
+          <div class="drow"><div class="k">Schools</div><div class="v"><span class="verdict v-hit">No school carve-out, and no opt-out</span> The HTRZ definition of "property tax increment" excludes only the multicounty assessing and collecting levy, the county additional property tax, and the public library fund levy. School levies are not on that list &mdash; and once the committee approves, affected taxing entities are required to participate, at the same rate.</div></div>
+        </div>
+      </div>
+
+      <div class="dcard">
+        <div class="dcard-head">
+          <span class="abbr">MIDA</span>
+          <span class="full">Title 63H &mdash; Military Installation Development Authority</span>
+        </div>
+        <div class="dcard-body">
+          <div class="drow"><div class="k">What it is</div><div class="v">A state body that acts as its own land-use authority inside its project areas, takes increment, issues bonds, and can create PID subsidiaries beneath it.</div></div>
+          <div class="drow"><div class="k">Term</div><div class="v">Frequently 25&ndash;40 year increment spans, repeatedly extended by later bills.</div></div>
+          <div class="drow"><div class="k">Schools</div><div class="v"><span class="verdict v-open">Check project by project</span> Its increment powers sit in its own chapter and have been expanded repeatedly since 2018. Don't assume the Title 17C carve-out reaches them; read the specific project area budget.</div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section class="alt" id="bonds">
+  <div class="wrap">
+    <span class="section-num">04 &mdash; THE BORROWING</span>
+    <h2>Two ways a school district takes on debt. You only vote on one of them.</h2>
+    <p class="lede">Districts, PIDs, and agencies all borrow against future tax revenue. For school districts specifically, the difference between the two main instruments is not the size of the debt or who pays it back &mdash; it's whether an election happens.</p>
+
+    <div class="bonds">
+      <div class="bond-row">
+        <div class="bond-cell">
+          <h4>General obligation bond</h4>
+          <span class="vote vote-yes">&#10003; Requires a public vote</span>
+          <p>Goes on the November ballot. Backed by the district's full taxing power and guaranteed by the state's School Bond Guaranty Program, which is why it carries the lowest interest rate available. Repaid through the Debt Service levy &mdash; the one levy the inland port cannot capture.</p>
+        </div>
+        <div class="bond-cell">
+          <h4>Lease revenue bond</h4>
+          <span class="vote vote-no">&#10007; No public vote</span>
+          <p>Issued through a Local Building Authority &mdash; in practice, the same school board sitting as a second body. The district leases the building back from the authority; the lease payments service the debt. Approved by board resolution after a public hearing. Structured like a mortgage, with the school as collateral.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="callout warn">
+      <span class="tag">What changed in 2025</span>
+      <p>Utah law used to cap lease revenue bonds at a combined $200 million over any three-year period without voter approval. S.B. 188 of the 2025 General Session eliminated that cap for reorganized districts. Alpine School District used the new authority almost immediately, approving up to $238 million in lease revenue bonds for a high school in Saratoga Springs and an elementary in Eagle Mountain, then bringing $201 million to market that July &mdash; debt to be assumed by the new West district after the 2027 three-way split. The bonds run up to 31 years.</p>
+    </div>
+
+    <div class="callout warn">
+      <span class="tag">Where it gets uncomfortable</span>
+      <p>Utah's public notice statute anticipates the obvious use of this tool. Lease revenue bond notices carry a required disclosure line for when proceeds will fund a project whose general obligation financing voters already rejected. North Summit School District's December 2025 notice for up to $125 million carried exactly that line &mdash; alongside the statutory acknowledgment that a lease revenue bond generally costs more in interest than a voter-approved general obligation bond.</p>
+    </div>
+
+    <p style="margin-top:24px;">A household inside a PID can be carrying school debt, city debt, county debt, and PID debt on one bill &mdash; having voted on only one of them. And because the school district's diverted increment can be pledged toward the PID's bonds, the same household's school taxes may be helping pay the infrastructure debt on the development it lives in.</p>
+  </div>
+</section>
+
+<!-- ================= CASE FILE 1 ================= -->
+<section id="casefile">
+  <div class="wrap">
+    <span class="section-num">05 &mdash; CASE FILE ONE: A DATA CENTER</span>
+    <h2>Alpine School District and the Eagle Mountain data center</h2>
+    <p class="lede">Every number below is from the Eagle Mountain Redevelopment Agency's own adopted project area budget and interlocal agreement, posted on the Utah Public Notice Website. Nothing here is modeled by us.</p>
+
+    <div class="casefile">
+      <div class="cf-head">
+        <span class="cf-kicker">Case file 1 &middot; Title 17C CRA</span>
+        <h3>Sweetwater Industrial Park Community Reinvestment Project Area&nbsp;#3</h3>
+      </div>
+      <div class="cf-meta">
+        <div><span class="k">Base year</span><span class="v">2022</span></div>
+        <div><span class="k">Acreage</span><span class="v">193.20 acres</span></div>
+        <div><span class="k">Owners</span><span class="v">QTS Eagle Mountain I &amp; II LLC</span></div>
+        <div><span class="k">Term</span><span class="v">20 yrs/phase, 40 max</span></div>
+      </div>
+      <details class="cf-body">
+        <summary>Open the full ledger &mdash; base year, rate stack, the 20-year split, and the $778 million project next door</summary>
+        <p>Two parcels of vacant, greenbelt-classified land west of Magnolia Road, immediately west of the existing Meta/Facebook data center complex. The plan's stated purpose: assist construction of a colocation data center complex, projected to require over $2 billion of private capital and create roughly 120&ndash;150 jobs. The agency's financial consultant was Lewis Young Robertson &amp; Burningham.</p>
+
+        <h4 class="sub">Step 1 &mdash; The freeze</h4>
+        <p style="font-size:15px;">The base year is set at 2022. The taxable value on that date becomes the base taxable value, and it never moves for the life of the deal. Every taxing entity keeps collecting on <em>that</em> number. Everything above it is the increment.</p>
+
+        <div class="frozen">
+          <div class="frozen-row"><div>Base taxable value, frozen at 2022 <small>subject to final verification by the county</small></div><div class="n">$13,355,671</div></div>
+          <div class="frozen-row"><div>Combined tax rate applied, all five entities</div><div class="n">0.008646</div></div>
+          <div class="frozen-row total"><div>Base-year property tax, all entities, per year</div><div class="n">$115,473</div></div>
+          <div class="frozen-row"><div>&nbsp;&nbsp;&nbsp;of which Alpine School District, per year</div><div class="n">$76,448</div></div>
+          <div class="frozen-row"><div>Base taxes flowing through over the 20-year term</div><div class="n">$2,309,463</div></div>
+          <div class="frozen-row"><div>&nbsp;&nbsp;&nbsp;of which Alpine School District</div><div class="n">$1,528,957</div></div>
+        </div>
+
+        <div class="callout flag" style="margin:0 0 24px;">
+          <span class="tag">A discrepancy worth noticing</span>
+          <p>The budget estimates the frozen base at $13.36 million in taxable value, generating $115,473 a year. But the interlocal agreement's own recital states that the project area has historically generated <strong>$1,281 per year</strong> in total property taxes for all entities combined &mdash; because the land was greenbelt-classified farmland. Those two figures describe the same dirt. Which one becomes the legally binding base taxable value determines how much revenue is treated as "growth" the agency may capture.</p>
+        </div>
+
+        <h4 class="sub">Step 2 &mdash; Why the school district is the biggest funder</h4>
+        <p style="font-size:15px;">Nobody singled out the school district. The school district is simply the largest rate on the bill. Here are the five 2022 rates that make up the 0.008646 total, drawn to scale:</p>
+
+        <div class="ratestack" role="img" aria-label="Rate stack: Alpine School District 66.2 percent, Unified Fire 15.3 percent, Utah County 7.6 percent, Eagle Mountain City 6.3 percent, Central Utah Water 4.6 percent.">
+          <span class="rs-alpine" style="width:66.2%">ALPINE SCHOOL DISTRICT &middot; 66.2%</span>
+          <span class="rs-fire" style="width:15.3%">FIRE</span>
+          <span class="rs-county" style="width:7.6%">CO.</span>
+          <span class="rs-city" style="width:6.3%">CITY</span>
+          <span class="rs-water" style="width:4.6%">H2O</span>
+        </div>
+        <div class="ratekey">
+          <span class="sw" style="background:var(--diversion)"></span>Alpine School District &mdash; 0.005724<br>
+          <span class="sw" style="background:#6E5A46"></span>Unified Fire Service Area, Salt Lake County &mdash; 0.001320<br>
+          <span class="sw" style="background:var(--ink-2)"></span>Utah County &mdash; 0.000661<br>
+          <span class="sw" style="background:var(--ink-3)"></span>Eagle Mountain City &mdash; 0.000541<br>
+          <span class="sw" style="background:#9EA9A2"></span>Central Utah Water Conservancy District &mdash; 0.000400
+        </div>
+        <p class="fine">Every entity contributes at the same participation rate: 61% of real-property increment and 74% of personal-property increment. Because Alpine's rate is two-thirds of the total rate, Alpine supplies two-thirds of the money &mdash; without any entity being treated differently on paper.</p>
+
+        <h4 class="sub">Step 3 &mdash; The 20-year split of Alpine's own increment</h4>
+        <p style="font-size:15px;">Built out, the site is modeled at a $131.2 million building plus personal property cycling between $23 million and $85 million as equipment depreciates and gets replaced. Against Alpine's rate, that generates <strong>$20,906,417</strong> of increment over 20 years. Here is where it goes:</p>
+
+        <div class="flowbar">
+          <div class="fb-track">
+            <span class="fb-div" style="width:64.7%">DIVERTED &middot; $13,518,614</span>
+            <span class="fb-keep" style="width:35.3%">KEPT &middot; $7,387,803</span>
+          </div>
+          <div class="flowlegend">
+            <span>64.7% leaves the school district</span>
+            <span>35.3% stays</span>
+          </div>
+        </div>
+
+        <div class="frozen" style="margin-top:20px;">
+          <div class="frozen-row"><div>Alpine increment generated over 20 years</div><div class="n">$20,906,417</div></div>
+          <div class="frozen-row hilite"><div>Diverted to the Eagle Mountain RDA</div><div class="n">&minus;$13,518,614</div></div>
+          <div class="frozen-row"><div>Retained by Alpine School District</div><div class="n">$7,387,803</div></div>
+          <div class="frozen-row ok"><div>Returned as "School District Pilot Program" <small>$25,000 per building per year, one building modeled</small></div><div class="n">+$500,000</div></div>
+          <div class="frozen-row"><div>Additional general-government cost the budget assigns to Alpine</div><div class="n">&minus;$258,128</div></div>
+        </div>
+
+        <h4 class="sub">Step 4 &mdash; What the diverted money buys</h4>
+        <div class="frozen">
+          <div class="frozen-row"><div>Redevelopment activities &mdash; infrastructure, incentives <small>87.5% of the total pool</small></div><div class="n">$17,367,172</div></div>
+          <div class="frozen-row"><div>Affordable housing requirement <small>10%, statutorily required</small></div><div class="n">$2,041,962</div></div>
+          <div class="frozen-row"><div>Agency administration <small>2.5%</small></div><div class="n">$510,491</div></div>
+          <div class="frozen-row"><div>School district pilot payments</div><div class="n">$500,000</div></div>
+          <div class="frozen-row total"><div>Total pool, all five entities</div><div class="n">$20,419,625</div></div>
+        </div>
+
+        <div class="bignum">
+          <span class="num">$500,000 back on $13,518,614 in</span>
+          <span class="cap">Alpine School District supplies 66% of the money in this deal and receives 3.7% of its own contribution back through the pilot program. Both figures are from the agency's adopted budget.</span>
+        </div>
+
+        <p style="font-size:15px;">Against the plan's own job projection of 120 to 150 positions, the school district's diverted share works out to roughly <strong>$90,000 to $113,000 of school revenue per job created</strong> &mdash; a calculation the budget does not perform, but which follows directly from two numbers it publishes.</p>
+
+        <h4 class="sub">The same city, thirty-eight times bigger</h4>
+        <p style="font-size:15px;">Sweetwater #3 is not the largest of these in Eagle Mountain. It is not close. On December 5, 2025 the same agency posted a hearing notice for an <strong>amended</strong> plan and budget for <strong>Sweetwater Industrial Park Community Reinvestment Project Area #4</strong> &mdash; 567.62 acres, created per the agency's own September 2025 board materials for an expansion of the Meta data center campus. The amendment was required because, in the agency's words, continued negotiation of interlocal agreements with the participating taxing entities produced enough variation from the draft approved on November 5, 2025 that the plan and budget had to be redone.</p>
+
+        <div class="frozen">
+          <div class="frozen-row hilite"><div><strong>Alpine School District</strong></div><div class="n">$493,641,645</div></div>
+          <div class="frozen-row"><div>Unified Fire District &ndash; Salt Lake County</div><div class="n">$144,784,376</div></div>
+          <div class="frozen-row"><div>Utah County</div><div class="n">$78,359,059</div></div>
+          <div class="frozen-row"><div>Eagle Mountain City</div><div class="n">$46,857,489</div></div>
+          <div class="frozen-row"><div>Central Utah Water Conservancy District</div><div class="n">$14,898,109</div></div>
+          <div class="frozen-row total"><div>Total tax increment requested</div><div class="n">$778,540,678</div></div>
+        </div>
+
+        <p style="font-size:15px;">Alpine School District's share is <strong>63.4%</strong> &mdash; the same arithmetic as before, the school levy being the largest rate on the bill. In absolute terms it is <strong>$493.6 million</strong>, which is 36 times the district's commitment in Sweetwater #3. Add the two together and one school district has agreed to route more than <strong>half a billion dollars</strong> of its own future growth to one city's redevelopment agency, across two adjacent project areas, before the district splits into three.</p>
+
+        <div class="ratestack" role="img" aria-label="Sweetwater CRA number 4 sources of tax increment: Alpine School District 63.4 percent, Unified Fire 18.6 percent, Utah County 10.1 percent, Eagle Mountain City 6 percent, Central Utah Water 1.9 percent.">
+          <span class="rs-alpine" style="width:63.4%">ALPINE SCHOOL DISTRICT &middot; 63.4%</span>
+          <span class="rs-fire" style="width:18.6%">FIRE</span>
+          <span class="rs-county" style="width:10.1%">COUNTY</span>
+          <span class="rs-city" style="width:6.0%">CITY</span>
+          <span class="rs-water" style="width:1.9%">H2O</span>
+        </div>
+
+        <h4 class="sub">And this time there is no payment back to the school district at all</h4>
+        <p style="font-size:15px;">Compare the two "uses" tables. Sweetwater #3 budgeted a School District Pilot Program at $25,000 per building per year &mdash; $500,000 over the term, 3.7% of what Alpine put in. Sweetwater #4's uses table has no such line:</p>
+
+        <div class="frozen">
+          <div class="frozen-row"><div>Redevelopment activities <small>stated at 87.5%; works out to 88.47% of the total</small></div><div class="n">$688,808,500</div></div>
+          <div class="frozen-row"><div>CRA housing requirement <small>10%, statutorily required</small></div><div class="n">$77,854,068</div></div>
+          <div class="frozen-row"><div>County RDA administration <small>1.5%</small></div><div class="n">$11,678,110</div></div>
+          <div class="frozen-row"><div>Project area administration</div><div class="n">$200,000</div></div>
+          <div class="frozen-row hilite"><div>School district pilot payments</div><div class="n">&mdash; none &mdash;</div></div>
+          <div class="frozen-row total"><div>Total uses</div><div class="n">$778,540,678</div></div>
+        </div>
+
+        <p style="font-size:15px;">Sources and uses each total to $778,540,678 exactly. The district supplying nearly two-thirds of a $778 million pool receives, on the face of the published budget, nothing back &mdash; while the county's redevelopment administration line alone runs $11.7 million, twenty-three times the pilot payment the district received in the smaller project next door.</p>
+
+        <div class="callout">
+          <span class="tag">In terms a person can picture</span>
+          <p>Half a billion dollars is not a number anyone can hold. So: Alpine School District currently enrolls roughly 84,000 students. Divided across them, the district's combined commitment in these two project areas comes to about <strong>$6,000 per student</strong> &mdash; nearly all of it from Sweetwater #4 alone.</p>
+          <p>Two honest caveats, because the arithmetic is ours and not the agency's. The money is spread over decades, not owed at once. And enrollment will change, not least because the district splits into three in 2027. It is a scale translation, not a bill anyone receives. But it is division on two published figures, and it is closer to how a parent experiences a budget than "$493,641,645" will ever be.</p>
+        </div>
+
+        <div class="callout flag">
+          <span class="tag">The document to request</span>
+          <p>The notice says the taxing entities' interlocal negotiations changed the numbers enough to force an amendment, but it does not publish the superseded draft. Comparing the November 5, 2025 draft plan and budget against the amended version adopted after the January 6, 2026 hearing would show whether Alpine School District's share went up or down at the negotiating table, and what it traded for. Both versions are agency records. The amended notice and its attachment are on the Utah Public Notice Website.</p>
+        </div>
+
+        <div class="callout warn">
+          <span class="tag">Then the district splits</span>
+          <p>This project area sits in Eagle Mountain. On July 1, 2027, Alpine School District becomes three districts, and Eagle Mountain falls into the new West district &mdash; built from four cities instead of the whole county. The $13.5 million diversion doesn't change. The tax base absorbing it shrinks by roughly three quarters. Utah County's public materials on the split state it isn't expected to significantly affect school funding, citing per-pupil state funding as the stabilizer &mdash; but per-pupil state money is not the local property tax base, and the local property tax base is exactly where this mechanism operates.</p>
+        </div>
+
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ================= CASE FILES 2 & 3 ================= -->
+<section id="weber">
+  <div class="wrap">
+    <span class="section-num">06 &mdash; CASE FILES TWO AND THREE: WEBER COUNTY</span>
+    <h2>Nordic Village and West Weber</h2>
+    <p class="lede">The Eagle Mountain case is 90 miles south. Weber County has two of its own &mdash; one a county-run CRA over a ski resort, one a state inland port project area covering nearly nine thousand acres. Both reach Weber School District. Neither required a public vote.</p>
+
+    <div class="casefile">
+      <div class="cf-head">
+        <span class="cf-kicker">Case file 2 &middot; Title 17C CRA + a stacked PID</span>
+        <h3>Nordic Village Community Reinvestment Project Area</h3>
+      </div>
+      <div class="cf-meta">
+        <div><span class="k">Base year</span><span class="v">2024</span></div>
+        <div><span class="k">Acreage</span><span class="v">~512 acres</span></div>
+        <div><span class="k">Public financing</span><span class="v">$40.9 million</span></div>
+        <div><span class="k">Term</span><span class="v">15 years</span></div>
+      </div>
+      <details class="cf-body">
+        <summary>Open the full ledger &mdash; who signed, sources and uses, and the year the payment doubles</summary>
+        <p>A resort-oriented development in and around the Nordic Valley Ski Resort in unincorporated Ogden Valley &mdash; 428 condos, 159 chalets, 230 hotel rooms, 50 employee housing units and 56,059 square feet of commercial space on roughly 512 acres. The developer is Nordic Village Venture, LLC, managed by Clyde Capital. The Community Reinvestment Agency of Weber County adopted Resolution No. CRA06-2024 on December 17, 2024 and signed interlocal cooperation agreements with four taxing entities. A separate Nordic Village Public Infrastructure District was created November 20, 2024 &mdash; so this site carries both mechanisms at once. The financial analysis was prepared by Lewis Young Robertson and Burningham, the same firm that prepared the Eagle Mountain budget in case file 1.</p>
+
+        <h4 class="sub">Who agreed to give up what</h4>
+        <div class="frozen">
+          <div class="frozen-row hilite"><div>Weber County School District</div><div class="n">50% &middot; 15 yrs</div></div>
+          <div class="frozen-row"><div>Weber County</div><div class="n">75% &middot; 15 yrs</div></div>
+          <div class="frozen-row"><div>Weber Basin Water Conservancy District</div><div class="n">50% &middot; 15 yrs</div></div>
+          <div class="frozen-row"><div>Weber Fire District</div><div class="n">50% &middot; 15 yrs</div></div>
+        </div>
+        <p class="fine">The CRA participation window is stated in the financing plan as 2027&ndash;2041. The base year is 2024, so the freeze was set roughly three years before collection begins.</p>
+
+        <h4 class="sub">Sources and uses, from the financing plan</h4>
+        <p style="font-size:15px;">This is the whole deal on one page &mdash; and it shows the diverted taxes and the PID levy funding the same project side by side:</p>
+        <div class="frozen">
+          <div class="frozen-row"><div>Developer funding &mdash; equity and debt</div><div class="n">$79,942,771</div></div>
+          <div class="frozen-row hilite"><div>PID <small>the district's own levy and bonds</small></div><div class="n">$24,355,615</div></div>
+          <div class="frozen-row hilite"><div>TIF &mdash; School District, Weber Basin Water and Fire District combined <small>50% for 15 years, all three entities in one line</small></div><div class="n">$11,525,738</div></div>
+          <div class="frozen-row hilite"><div>TIF &mdash; Weber County <small>75% for 15 years</small></div><div class="n">$5,045,908</div></div>
+          <div class="frozen-row total"><div>Total</div><div class="n">$120,870,032</div></div>
+          <div class="frozen-row"><div>Use: community and regional infrastructure</div><div class="n">$45,686,225</div></div>
+          <div class="frozen-row"><div>Use: onsite / localized infrastructure</div><div class="n">$75,183,808</div></div>
+        </div>
+        <p style="font-size:15px;">Public mechanisms supply <strong>$40,927,261</strong> of the $120.9 million &mdash; about 34% &mdash; of which $16.6 million is diverted tax increment and $24.4 million is PID debt levied on the property itself. Note also that the $45,686,225 "community and regional infrastructure" figure is the one members of the public questioned at the December 31, 2024 commission meeting, asking why the maximum payment was capped at $18 million if the budget said $45.7 million.</p>
+
+        <div class="callout flag" style="margin:20px 0;">
+          <span class="tag">What this document does NOT break out</span>
+          <p>The school district's share is bundled with Weber Basin Water and the Fire District in a single $11,525,738 line. The plan does not publish the school district's individual dollar figure, and it does not publish a per-entity cap. Any specific number for Weber County School District alone &mdash; including a cap &mdash; has to come from the signed interlocal agreement between the district and the Agency, not from this plan.</p>
+        </div>
+
+        <h4 class="sub">The one entity whose full 30 years is published</h4>
+        <p style="font-size:15px;">This financing plan was prepared for the Weber Fire District, so it carries a complete year-by-year table for that entity. It is the clearest published picture of what the freeze does to a taxing entity over time, and the school district's curve works the same way at the same 50% rate:</p>
+        <div class="frozen">
+          <div class="frozen-row"><div>Pre-TIF collections, 2024&ndash;2026 <small>the frozen base, $13,867 per year</small></div><div class="n">$41,601</div></div>
+          <div class="frozen-row hilite"><div>Diverted to the CRA, 2027&ndash;2041</div><div class="n">$5,440,513</div></div>
+          <div class="frozen-row ok"><div>Retained by the Fire District during the CRA, 2027&ndash;2041</div><div class="n">$5,440,513</div></div>
+          <div class="frozen-row"><div>Collected after the CRA ends, 2042&ndash;2053 <small>$856,315 per year once the split lifts</small></div><div class="n">$10,275,784</div></div>
+        </div>
+        <p style="font-size:15px;">Read the last two rows together and the mechanism is plain: the annual figure jumps from $428,158 to $856,315 the year participation ends. That doubling is the diversion, stated in the agency's own model. For fifteen years, exactly half of everything the new development generates for the Fire District goes to the CRA instead.</p>
+
+        <p style="font-size:15px;">The increment is allocated on an 85% / 10% / 5% basis. The 10% is the statutory housing share &mdash; and per the county's presentation, in this case that housing money is to be spent on the developer's own property for employee housing (the 50 units), rather than going into a general county housing fund. The remaining 85% funds a wastewater and water reuse treatment system, water and sewer conveyance, road work, parks and trails.</p>
+
+        <div class="callout warn">
+          <span class="tag">The economic-impact figure, read carefully</span>
+          <p>The $471 million attached to this project in press coverage is not investment and not construction cost. In the financing plan it is the bottom line of a 25-year benefit analysis: $283 million of "new resident per capita spending," $160 million of new job wages, and $28 million of construction wages and materials. The first of those three &mdash; the largest &mdash; is projected household spending by people who would live there, which is also what a resident of the December 31, 2024 meeting questioned on the record. Actual developer equity and debt in the plan is $79.9 million.</p>
+        </div>
+
+        <div class="callout warn">
+          <span class="tag">Questions raised in the record, at the time</span>
+          <p>At the Weber County Commission meeting of December 31, 2024, members of the public asked on the record why the maximum payment was capped at $18 million when the budget stated $45.7 million would be paid for community and regional infrastructure with partial funding from both TIF and the PID; asked someone to trace the flow of money from tax increment to the CRA to the developers to their bonds; and asked whether it was factual that PID taxes from Weber Basin and the fire district would go to the CRA and be available to developers at a rate of 50%. Those questions, and the underlying interlocal terms, are worth pulling in full.</p>
+        </div>
+
+        <div class="callout flag">
+          <span class="tag">The 30-day clock</span>
+          <p>Notice of the interlocal agreements was published under <span class="stat">&sect; 11-13-219</span> and <span class="stat">&sect; 17C-5-205</span>. Anyone with an interest had thirty days from publication to contest the agreement or the procedure used to adopt it. After that window closed, by statute, the agreement and the agency's collection and use of the increment can no longer be challenged.</p>
+        </div>
+      </details>
+    </div>
+
+    <div class="casefile">
+      <div class="cf-head">
+        <span class="cf-kicker">Case file 3 &middot; Title 11-58 inland port project area</span>
+        <h3>West Weber Inland Port Project Area</h3>
+      </div>
+      <div class="cf-meta">
+        <div><span class="k">Base year</span><span class="v">2023</span></div>
+        <div><span class="k">Acreage</span><span class="v">8,967.74 acres</span></div>
+        <div><span class="k">Differential 25 yrs</span><span class="v">$481.1 million</span></div>
+        <div><span class="k">Term</span><span class="v">25 yrs, +15 possible</span></div>
+      </div>
+      <details class="cf-body">
+        <summary>Open the full ledger &mdash; the Appendix D model, which school levies the port can reach, and the two PIDs</summary>
+        <p>Nearly nine thousand acres on the eastern shore of the Great Salt Lake near Little Mountain, entirely inside Weber County. The Weber County Commission passed Resolution 39-2023 on September 12, 2023 consenting to a 342-acre project area &mdash; then Resolution 02-2024 on January 2, 2024, adding another 8,658 acres and bringing the total to about 9,000. The UIPA board adopted the project area on May 20, 2024 and approved Amendment #1 on June 25, 2026. Targeted industries named in the plan include advanced manufacturing, aerospace and defense, distribution and logistics, data centers, and renewable energy.</p>
+
+        <h4 class="sub">The split, and the term</h4>
+        <div class="frozen">
+          <div class="frozen-row hilite"><div>To the Utah Inland Port Authority</div><div class="n">75%</div></div>
+          <div class="frozen-row ok"><div>Passed through to taxing entities, including the school district</div><div class="n">25%</div></div>
+          <div class="frozen-row"><div>Duration <small>extendable by 15 more years on a board finding of significant benefit</small></div><div class="n">25 years</div></div>
+        </div>
+
+        <h4 class="sub">The Appendix D budget model, as adopted</h4>
+        <p style="font-size:15px;">The plan's own budget summary puts the whole 25-year projection in six lines. Note the first one against the last one:</p>
+        <div class="frozen">
+          <div class="frozen-row"><div>Base year taxable revenues <small>what the ~8,968 acres generates now, frozen at 2023</small></div><div class="n">$190,000</div></div>
+          <div class="frozen-row hilite"><div>Tax differential to the project area <small>the 75% share</small></div><div class="n">$360,800,000</div></div>
+          <div class="frozen-row ok"><div>Tax differential to other taxing entities <small>the 25% pass-through, all entities combined</small></div><div class="n">$120,300,000</div></div>
+          <div class="frozen-row total"><div>Total tax differential</div><div class="n">$481,100,000</div></div>
+          <div class="frozen-row"><div>Less wetland mitigation <small>the plan's designated 3% of the project-area share</small></div><div class="n">&minus;$10,800,000</div></div>
+          <div class="frozen-row"><div>Less administrative expenses <small>5% of the project-area share</small></div><div class="n">&minus;$18,000,000</div></div>
+          <div class="frozen-row total"><div>Total remaining differential for projects</div><div class="n">$342,800,000</div></div>
+        </div>
+        <p style="font-size:15px;">A frozen base of $190,000 a year against a projected $481.1 million of growth over 25 years. Every taxing entity in the boundary keeps collecting on the $190,000, plus a 25% share of the growth. The other 75% &mdash; $360.8 million &mdash; is the port's.</p>
+
+        <div class="callout warn">
+          <span class="tag">The clock is per parcel &mdash; and the timing is deliberate</span>
+          <p>This is the mechanic that makes an inland port project area different from an ordinary CRA. The board designates a trigger date by resolution for specified parcels, and the 25-year term runs from that date for <em>that parcel</em>. So the countdown starts individually as each parcel develops out. Across nearly nine thousand acres developing over decades, capture on the last parcels can begin long after the first ones started &mdash; and the board can add another 15 years on a finding of significant benefit.</p>
+          <p>UIPA's own 2025&ndash;2026 annual report explains why it works that way, under the heading "When to Trigger?": triggering happens after construction is complete so that the property tax valuation reflects the entire improvement, which the report says <span class="stat">optimizes for maximum tax differential</span> and bonding capacity, and ensures the port captures as much increment as possible. The four-step sequence it publishes is: construction completes, the county recorder confirms the improved parcels' tax IDs, a trigger resolution goes to the UIPA board, and differential begins flowing the following tax year.</p>
+          <p>That is a candid description of a real choice. The base year stays frozen at pre-construction value while the improvement is built, so the entire jump in value counts as capturable growth rather than as base. Nothing about it is hidden &mdash; it's in a public report &mdash; but it is the opposite of the reassurance that a project area only captures "new growth" incidentally.</p>
+          <p><strong>The confirmed date:</strong> the same report states first triggered parcels are anticipated for the <strong>2027 tax year</strong>, and lists a 2027 trigger cycle under what's next. Earlier project-area plan text gave 2025; 2027 is the current figure.</p>
+        </div>
+
+        <h4 class="sub">Which school levies the port can actually reach</h4>
+        <p style="font-size:15px;">This is the part that doesn't appear in any press release. The project area plan defines "property tax differential" as the growth over base taxable value generated by all taxing entities, <em>excluding an assessing and collecting levy, a judgment levy, and a levy for a general obligation bond</em>. That exclusion list is three items long. Run the six school levies from section 01 against it:</p>
+
+        <div class="frozen">
+          <div class="frozen-row hilite"><div>Basic Levy</div><div class="n">CAPTURABLE</div></div>
+          <div class="frozen-row hilite"><div>Voted Local Levy</div><div class="n">CAPTURABLE</div></div>
+          <div class="frozen-row hilite"><div>Board Local Levy</div><div class="n">CAPTURABLE</div></div>
+          <div class="frozen-row hilite"><div>Capital Local Levy</div><div class="n">CAPTURABLE</div></div>
+          <div class="frozen-row ok"><div>Debt Service Levy <small>excluded as a general obligation bond levy</small></div><div class="n">EXCLUDED</div></div>
+          <div class="frozen-row ok"><div>Judgment Recovery Levy <small>excluded as a judgment levy</small></div><div class="n">EXCLUDED</div></div>
+        </div>
+
+        <p style="font-size:15px;">Four of the six. The two that are protected are the two a district has the least discretion over &mdash; bond repayment and court-ordered refunds. The Basic Levy that the 2017 Title 17C amendment was written to shield is not shielded here, because this isn't Title 17C.</p>
+
+        <h4 class="sub">And then the PIDs &mdash; plural, and already borrowing</h4>
+        <p style="font-size:15px;">When the project area plan was written, a PID was a possibility: with a positive recommendation from Weber County, UIPA may sponsor one &mdash; a separate taxing entity with its own board, its own levy and its own bonds, formed on consent of property owners. UIPA says it will not manage or control the PID, but the UIPA board must authorize its bond issuance, and those bonds "may be guaranteed and paid back by tax differential revenues."</p>
+        <p style="font-size:15px;">As of UIPA's 2025&ndash;2026 annual report, that possibility is two operating districts:</p>
+
+        <div class="frozen">
+          <div class="frozen-row hilite"><div><strong>Promontory Commerce Center PID</strong> &mdash; special assessment bond priced May 12, 2026 <small>infrastructure build-out: transportation, water, sewer, stormwater, power, natural gas, parks and trails</small></div><div class="n">$25,000,000</div></div>
+          <div class="frozen-row hilite"><div><strong>West Weber PID</strong> &mdash; to be created June 2026, and per the report it "will leverage tax differential as a revenue source" <small>grade-separated rail crossing, water conveyance, wastewater conveyance and lift station, horizontal infrastructure in 12th Street</small></div><div class="n">est. $73,000,000</div></div>
+          <div class="frozen-row"><div>Authority Infrastructure Bank loan, approved June 2025 <small>matched against $5M of Weber County ARPA funds for a 6-million-gallon-per-day sewer lift station; ribbon cutting April 23, 2026</small></div><div class="n">$5,000,000</div></div>
+          <div class="frozen-row total"><div>Capital deployed to date, per the report</div><div class="n">over $10,000,000</div></div>
+        </div>
+
+        <p style="font-size:15px;">So the chain is no longer hypothetical. The second PID is explicitly designed to borrow against the differential, and the report puts anticipated regional infrastructure costs at $73 million &mdash; against a project area whose frozen base generates $190,000 a year. The Promontory Commerce Center itself is a master-planned manufacturing and technology hub with 4.7 million square feet of proposed industrial buildout, developed in partnership between Black Pine, Weber County and UIPA.</p>
+        <p style="font-size:15px;">Elsewhere in the state, UIPA has already executed interlocal tax sharing agreements passing <strong>92.5%</strong> of the differential it receives straight through to the sponsored PID &mdash; Verk PID in Spanish Fork and Crossing PID Nos. 1 and 2 in Ephraim both run at that rate. Whether West Weber's PID lands at the same rate is a question for its own tax sharing agreement.</p>
+
+        <div class="callout warn">
+          <span class="tag">Read the education promise carefully</span>
+          <p>Marketing material for the project area projects roughly $784 million in new <em>state</em> revenue over 20 years, of which about $675 million is attributed to the Education Fund and $109 million to the General Fund, plus around $51 million in local sales tax. Those are projections resting on a stated assumption of 30% site coverage of developable land &mdash; but the more important point is which pot they describe. The Education Fund is state money, primarily income tax. It is not the local property tax levied by Weber School District, and it does not flow to the district as local revenue. So the same project can honestly promise a very large number for state education funding while simultaneously diverting 75% of the district's own local growth for 25 years per parcel. Both statements can be true at once, which is exactly why they need to be reported next to each other.</p>
+        </div>
+
+        <div class="callout flag">
+          <span class="tag">Two things still open, and one discrepancy</span>
+          <p><strong>Still open:</strong> the plan's per-entity table shows estimated current and expected revenue and each entity's 25-year differential, but Weber School District's individual line is not in hand &mdash; Appendix D gives only all-entity totals. The plan is posted on UIPA's West Weber page and UIPA maintains a GRAMA portal. Also unpublished: the West Weber PID's tax sharing agreement rate.</p>
+          <p><strong>Discrepancy worth resolving:</strong> the project area plan's Appendix A describes a Weber Bend Zone of 376.86 acres, while the annual report describes the Weber Bend Zone as encompassing about 8,500 acres, and a marketing map puts total acreage near 6,000 with roughly 3,000 developable &mdash; against the plan's stated 8,967.74-acre project area. These are not reconcilable as written and someone should ask which figure governs. The annual report also states 14 site visits in its infographic while its own body text says seven projects have reached the site visit stage.</p>
+          <p><strong>Worth noting on ownership:</strong> the annual report states two landowners own about 85% of the Weber Bend Zone, with the remaining 15% divided among many owners. Since a PID is formed on consent of 100% of property owners inside its boundary, concentration of that degree is what makes district formation straightforward.</p>
+        </div>
+      </details>
+    </div>
+
+    <div class="callout">
+      <span class="tag">The control case &mdash; what it looks like when schools aren't touched</span>
+      <p>Not every financing district reaches school money, and the difference is worth being precise about. The <strong>Sage Creek Infrastructure Financing District</strong>, also in Weber County, issued $8.155 million in special assessment bonds. Those bonds are repaid through a dedicated assessment line on the tax bills of the specific property owners inside the district boundary, established with property-owner consent. No tax increment is captured and no taxing entity's growth is diverted &mdash; the school district's revenue is unaffected. It is a self-funded overlay, not a diversion. When an official says "this doesn't take money from schools," Sage Creek is what that actually looks like, and it's the standard the other three should be measured against.</p>
+    </div>
+
+    <h4 class="sub" style="font-size:19px;margin-top:38px;">All three side by side</h4>
+    <div class="tw-wrap">
+      <table class="tw">
+        <thead>
+          <tr><th></th><th>Sweetwater #3</th><th>Nordic Village</th><th>West Weber</th></tr>
+        </thead>
+        <tbody>
+          <tr><th>Chapter</th><td>17C (CRA)</td><td>17C (CRA) + 17D-4 (PID)</td><td>11-58 (UIPA) + PID allowed</td></tr>
+          <tr><th>Who approved</th><td>City RDA board</td><td>County CRA board</td><td>State UIPA board</td></tr>
+          <tr><th>School district</th><td>Alpine</td><td>Weber</td><td>Weber</td></tr>
+          <tr><th>Base year</th><td>2022</td><td>2024</td><td>2023</td></tr>
+          <tr><th>Term</th><td>20 yrs/phase, 40 max</td><td>15 years (2027&ndash;2041)</td><td>25 yrs per parcel from trigger, +15 possible</td></tr>
+          <tr><th>School share taken</th><td class="hit">61% real / 74% personal</td><td class="hit">50%</td><td class="hit">75% of differential</td></tr>
+          <tr><th>Public vote</th><td class="hit">None</td><td class="hit">None</td><td class="hit">None</td></tr>
+          <tr><th>Acreage</th><td>193</td><td>~512</td><td>8,968</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout warn">
+      <span class="tag">The pattern across all three</span>
+      <p>Each of these deals offers the school district something other than money in exchange for money. Eagle Mountain budgets a "School District Pilot Program" at $25,000 per building per year. Weber County's presentation said it intends to include internship and career-education conversations with the school district in the Nordic Village interlocal. And UIPA's recruitment strategy lists "opportunities for internships or job placement partnerships with local high schools, tech colleges, and universities" among the variables affecting how large an incentive a company receives &mdash; while its school district page offers "internships as a condition for post-performance incentives." Three separate agencies, three separate statutes, the same trade on offer. Whether internships are worth what the districts are giving up is a judgment for voters and school boards &mdash; but it should be made with the dollar figures next to it.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ================= CONCLUSION ================= -->
+<section id="meaning">
+  <div class="wrap">
+    <span class="section-num">07 &mdash; WHAT IT ALL MEANS</span>
+    <h2>Reading the whole thing back</h2>
+
+    <div class="plainbox">
+      <span class="badge">The plain version</span>
+      <h3>Nobody is taking money you already pay. They're taking the increase.</h3>
+      <p>That distinction is the reason these deals are easy to defend in a public meeting and hard to see on a tax bill. Your school district keeps collecting on what the land was worth the year the district was drawn. What it gives up is the growth &mdash; and growth is the only thing that lets a district keep up with rising costs and more students without raising anyone's rate.</p>
+      <p>So the money isn't missing from this year's budget. It's missing from the years when the buildings are full and the salaries need to go up. On the Eagle Mountain site, Alpine School District committed $13.5 million of future growth and gets $500,000 of it back. In Ogden Valley, the published Fire District model shows the annual figure jumping from $428,158 to $856,315 the year participation ends &mdash; exactly double, because for fifteen years half of it goes somewhere else. Weber School District signed at the same 50%.</p>
+      <p>When the bill for that arrives, a district has three options: raise the rate on everyone in the district, ask voters for a bond, or cut. That is the connection between a project area on the edge of the county and a truth-in-taxation hearing years later in a town nowhere near it.</p>
+      <p>None of this means the infrastructure is unnecessary or the developments are bad. Roads and sewer do get built, and the land does eventually produce far more tax than the alfalfa field it replaced. The honest question is narrower: who carries it in the meantime, for how long, and who was in the room when that was decided.</p>
+    </div>
+
+    <div class="deepbox">
+      <span class="badge">The detailed version</span>
+      <h3>Five structural findings, and what each one rests on</h3>
+
+      <ol class="findings">
+        <li>
+          <strong>The school district is usually the largest funder and never the deciding vote.</strong>
+          <span>This is arithmetic, not intent. School levies are the biggest component of a Utah property tax bill, so a uniform participation rate falls hardest on schools automatically. In Eagle Mountain, every entity participates at an identical 61%/74% rate, and Alpine supplies 66.2% of the money purely because its rate is 66.2% of the combined rate. Meanwhile school districts typically hold 2 of 8 seats on the taxing entity committee that approves the budget.</span>
+        </li>
+        <li>
+          <strong>Whether school levies are protected depends on which chapter of code, not on whether it's called a "TIF."</strong>
+          <span>Title 17C carries a carve-out for the Basic, Voted and Board levies. Title 63N (HTRZ) excludes only the multicounty assessing and collecting levy, the county additional property tax, and the public library fund levy &mdash; school levies aren't on that list. Title 11-58 (inland port) excludes only an assessing and collecting levy, a judgment levy, and a general obligation bond levy &mdash; which leaves four of the six school levies inside the capture. Same mechanism, three different answers, and the label on the project tells you none of it.</span>
+        </li>
+        <li>
+          <strong>Consent is real but structurally thin, and it expires fast.</strong>
+          <span>An HTRZ binds affected taxing entities to participate once a state committee approves, at the same rate, with no opt-out. An inland port project area requires written consent from the county or city &mdash; not from the school district. A CRA does require the district's own signature on an interlocal agreement, which is the strongest consent of the three; but once notice of that agreement is published, statute allows thirty days to contest it, after which the diversion cannot be challenged at all.</span>
+        </li>
+        <li>
+          <strong>Diversion and borrowing move in the same direction at the same time.</strong>
+          <span>The same growth that is pledged away is the growth that would service debt. And in 2025 the Legislature removed the cap on lease revenue bonds &mdash; the bond type that needs no election &mdash; for reorganized districts. A PID's bonds can be repaid from the diverted increment, so a household inside one of these areas may be paying school taxes that help service the infrastructure debt on its own subdivision, while its district borrows against a base that has been frozen.</span>
+        </li>
+        <li>
+          <strong>The clock and the freeze are set years apart, and sometimes parcel by parcel.</strong>
+          <span>Nordic Village froze its base at 2024 for a window that runs 2027&ndash;2041. West Weber froze at 2023 with collection triggered later. Under the inland port statute the 25-year term starts per parcel from a board-designated trigger date, so across nearly nine thousand acres the last parcels can still be capturing decades after the first ones began &mdash; and a board can add fifteen more years on a finding of significant benefit. West Weber's own budget model sets a frozen base of $190,000 a year against $481.1 million of projected differential over the term.</span>
+        </li>
+      </ol>
+    </div>
+
+    <div class="callout flag">
+      <span class="tag">What this page does not establish</span>
+      <p>Three things are genuinely unresolved, and it would be wrong to write around them. <strong>First:</strong> the Eagle Mountain budget applies Alpine's full combined rate even though Title 17C carries a school-levy carve-out. Either districts are consenting to include the protected levies, or the carve-out doesn't operate the way plain-language summaries describe. The signed interlocal agreements would settle it. <strong>Second:</strong> the Nordic Village financing plan bundles the school district with Weber Basin Water and the Fire District in one $11,525,738 line and publishes no per-entity figure or cap, so no number can be attributed to Weber School District alone from that document. <strong>Third:</strong> West Weber's per-entity table exists in the plan's economic soundness section, but Weber School District's individual 25-year line is not in hand. Until those three are pulled, the defensible claims are the ones above, and no further.</p>
+    </div>
+
+    <div class="callout">
+      <span class="tag">How to check your own situation</span>
+      <p>Every document behind this page is public. To find out whether a specific parcel sits inside one of these areas, start with the county recorder's parcel record and the Utah Public Notice Website, which is where project area plans, budgets, hearing notices and interlocal agreements are posted by statute. For a project area you already know the name of, the two documents worth reading are the <em>project area budget</em> (it contains the base taxable value, the participation rate for each taxing entity, and the term) and the <em>interlocal cooperation agreement</em> for the entity you care about (it contains what that entity actually agreed to). For an inland port area, the project area plan and its trigger resolution log are posted on the authority's own project page.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ================= READER QUESTIONS ================= -->
+<section class="alt" id="questions">
+  <div class="wrap">
+    <span class="section-num">08 &mdash; QUESTIONS THIS RAISES</span>
+    <h2>Open questions for readers, taxpayers and boards</h2>
+    <p class="lede">These are not rhetorical. Each one follows from a document cited on this page, and each one is answerable &mdash; by a school board, a county commission, an agency, or the Legislature. None has been answered publicly so far.</p>
+
+    <ol class="qlist">
+      <li>
+        <span class="q">If a growing share of the county's developable land has its taxable value frozen for fifteen to forty years, where is the money for schools and services supposed to come from in the meantime?</span>
+        <p class="basis"><b>What's documented:</b> Nordic Village runs 15 years (2027&ndash;2041). Sweetwater #3 runs 20 years per phase, up to 40. West Weber runs 25 years per parcel from a 2027 trigger, extendable by 15 more. That is three areas in two counties, and none of them is the last that will be created.</p>
+      </li>
+      <li>
+        <span class="q">Is a property tax increase on everyone else the intended release valve &mdash; and if so, was that disclosed when these agreements were signed?</span>
+        <p class="basis"><b>What's documented:</b> A district that has pledged away its growth has three ways to close a gap: raise the rate on all remaining property, ask voters for a bond, or cut. None of the project area budgets reviewed here models what participating entities will do when costs rise during the diversion window.</p>
+      </li>
+      <li>
+        <span class="q">Utah's public infrastructure districts have issued $5.27 billion in bonds. Who is tracking what that means for the taxpayers who will repay it?</span>
+        <p class="basis"><b>What's documented:</b> The Office of the State Auditor has jurisdiction over public infrastructure districts, and that office puts the total amount of municipal bonds issued for all PIDs statewide at <b>$5,267,000,000 as of August 7, 2026</b> &mdash; up from roughly $4 billion in the fall of 2025, and about $3.8 billion at the end of 2025 in earlier reporting. It is a running total that grows with every new issuance, not a fixed liability. Separately, the State Treasurer's annual Debt Affordability Study states that its scope covers tax-supported debt of the State and State agencies only, and that it does <em>not</em> cover local municipalities or affiliated bonding subdivisions &mdash; naming the Inland Port Authority, the Military Installation Development Authority, the Point of the Mountain State Land Authority, the Utah Lake Authority and UTA. So this borrowing is counted, but it sits entirely outside the state's headline debt figures.</p>
+      </li>
+      <li>
+        <span class="q">How does freezing local school revenue interact with the school debt the state has already guaranteed?</span>
+        <p class="basis"><b>What's documented:</b> Utah's School Bond Guaranty Program backs voter-approved school district general obligation bonds with the state's own credit. As of December 31, 2023, the state reported at least $3.397 billion of principal outstanding under that program, with annual principal and interest of roughly $495 million in fiscal 2024 and payments scheduled through fiscal 2043. Those bonds are repaid from the Debt Service levy &mdash; one of only two school levies an inland port project area cannot reach. The other four it can.</p>
+      </li>
+      <li>
+        <span class="q">Who actually has to agree, and does the public get a meaningful chance to object?</span>
+        <p class="basis"><b>What's documented:</b> A school district typically holds 2 of 8 seats on the taxing entity committee. An inland port project area requires written consent from the county, not from the school district. An HTRZ binds affected taxing entities once a state committee approves, with no opt-out. And once notice of an interlocal agreement is published, statute allows thirty days to contest it &mdash; after which the diversion cannot be challenged.</p>
+      </li>
+      <li>
+        <span class="q">What happens if the projected growth doesn't arrive on schedule &mdash; who carries debt that was already issued against it?</span>
+        <p class="basis"><b>What's documented:</b> The Promontory Commerce Center PID priced a $25 million special assessment bond in May 2026, and a second West Weber PID is being formed to borrow against tax differential toward roughly $73 million of regional infrastructure. The project area's frozen base generates about $190,000 a year, first parcels are not expected to trigger until the 2027 tax year, and the port's own annual report notes a trend of companies hesitating to announce deals.</p>
+        <p class="basis"><b>And this one has already been tested.</b> Wohali, a luxury golf resort west of Coalville in Summit County, filed Chapter 11 in August 2025 after allegedly defaulting on a loan of almost $80 million. Its developer had created two public infrastructure districts through the City of Coalville, one of which issued more than $30 million in bonds for sewer and water. The districts are legally separate from the resort but composed of the developer's own representatives. On December 1, 2025 the resort missed a $3.3 million payment owed to reimburse the PID for the sewer system &mdash; and because Utah law would then require the PID to foreclose on the resort, a bankruptcy judge authorized a loan of more than $4 million on December 8 to cover the PID payment and keep the course running. Court testimony indicated the resort was likely to be auctioned.</p>
+        <p class="basis"><b>The consequence that matters for every other city:</b> the Auditor's office directed Coalville to carry the PID's outstanding debt in its own 2024 and 2025 financial statements, citing Governmental Accounting Standards Board guidance, and issued a statewide advisory &mdash; finalized in March 2026 &mdash; warning local governments they could be financially accountable for the districts they create. Coalville's position is that a PID is a separate legal entity, that the city's only role was creating it and appointing the first board, and that it appoints no board after that. Both things are now on the record at once: the marketing promise of no recourse to the city, and a city being told to put the debt on its books. The Auditor has said other PID-related projects have gone bankrupt besides Wohali, and her office counts at least 24 PIDs or similar districts formed in Summit and Wasatch counties alone since 2019.</p>
+      </li>
+      <li>
+        <span class="q">If more than a third of these districts aren't filing the reports the law already requires, how would anyone know a problem was developing?</span>
+        <p class="basis"><b>What's documented:</b> Testifying to the Utah Rules Review and General Government Oversight Committee in January 2026, the State Auditor reported a <b>62.5% submission rate</b> for the reports public infrastructure districts are required to file under Utah Code &sect; 17D-4-205 &mdash; improved from roughly 54%, but still leaving over a third of districts non-compliant with a transparency requirement already on the books. The Auditor recommended statutory clarifications. Bond counsel from Gilmore &amp; Bell defended PIDs at the same hearing as a tax-exempt financing tool and warned that reclassifying them as "component units" of the governments that create them could invite litigation and market disruption.</p>
+      </li>
+      <li>
+        <span class="q">Are the offsets offered to school districts ever measured against what was given up?</span>
+        <p class="basis"><b>What's documented:</b> Eagle Mountain budgets $25,000 per building per year as a school district pilot payment against $13.5 million diverted. Weber County said it intends to include internship and career-education conversations in the Nordic Village interlocal. UIPA lists internship partnerships among the factors setting a company's incentive. No public document reviewed here reports back on whether any of it materialized.</p>
+      </li>
+      <li>
+        <span class="q">When a project promises hundreds of millions for education, which education money is being described?</span>
+        <p class="basis"><b>What's documented:</b> West Weber marketing projects roughly $675 million to the state Education Fund over 20 years, on a stated assumption of 30% site coverage of developable land. The Education Fund is state revenue, primarily income tax &mdash; a different pot from the local property tax the project area captures. Both figures can be quoted truthfully in the same meeting to opposite effect.</p>
+      </li>
+    </ol>
+
+    <div class="callout flag">
+      <span class="tag">On the $5.27 billion figure &mdash; what it is and isn't</span>
+      <p>This number is worth using and worth stating precisely, because its precision is the defense. Per the Office of the State Auditor, $5,267,000,000 as of August 7, 2026 is the <em>total amount of municipal bonds issued</em> for all public infrastructure districts across Utah. It is not state debt, and it is not a figure the state's own debt reporting includes. It is not money already spent or collected, and it is not a fixed sum any single taxpayer owes. It is the running total of long-term debt layered onto Utah communities through this one financing tool &mdash; repaid over coming decades by the property owners inside those district boundaries, with taxing entities exposed in a default.</p>
+      <p>Three things follow. <b>First, the scale comparison is the Auditor's own, and it appears in the public record more than once.</b> Speaking to KPCW in March 2026, Cannon put PID financing at <span class="stat">four times the amount of financing in public infrastructure districts</span> than the state holds in general obligation bonds &mdash; her office's figures being up to $3.9 billion issued by PIDs over seven years against less than $1 billion in pending state general obligation bonds. Reporting by the Utah Investigative Journalism Project with KSL in April 2026 framed it against a different denominator and reached the same conclusion: at the end of 2025 the state's total debt obligation stood at $1.1 billion while PIDs carried $3.8 billion, making PID debt more than three times the state's own. Either way the ratio is stated with its denominator, and either way it holds.</p>
+      <p><b>Second, the growth rate is as much the story as the total:</b> roughly $4 billion in the fall of 2025 to $5.27 billion by August 2026.</p>
+      <p><b>Third, this is the same tool stacked on the project areas above.</b> A $25 million special assessment bond already priced at Promontory Commerce Center, and a second West Weber district forming specifically to borrow against tax differential toward roughly $73 million more. The inland port has done it at far larger scale elsewhere: its Crossroads Public Infrastructure District sold $150 million in tax <em>differential</em> bonds &mdash; debt serviced directly by captured increment rather than by an assessment on the owners. That is the mechanism in section 06 operating at nine figures.</p>
+      <p><b>How big a single district can get:</b> Black Desert Public Infrastructure District, outside St. George, noticed special assessment bonds of up to <b>$234,870,000</b> maturing in as much as 30 years, on a February 2024 board resolution. The KSL investigation opens with a Black Desert buyer who first saw the added property tax on his unit the night before closing. Utah's PID reporting requirements run to the Lieutenant Governor's office, and the district-level bond notices are posted on the Utah Public Notice Website &mdash; which is where a figure like that one is found.</p>
+      <p><b>And here is the pitch, from a public record.</b> An investment bank's PID presentation, itself posted to the Utah Public Notice Website, lists the revenue sources a district can pledge &mdash; assessment lien, mill levy, property tax increment, sales tax, impact fees, transient room tax &mdash; and reassures the creating government that <span class="stat">no recourse to the city</span> attaches, that PID bonds do not affect the city's credit rating or debt capacity, and that the bonds stay off the city's books. That is accurate as a matter of law, and it is also the reason a $5.27 billion total accumulated without appearing in any government's headline debt figure.</p>
+      <p>Cannon's stated concern is worth reporting alongside the numbers. Much of Utah's legal community holds that cities, counties and their taxpayers are not liable if a PID fails &mdash; the obligation falls on the property owners who opted in. Cannon has said her office is not claiming local governments are liable, but is pointing to a reputational risk for cities, counties and the state, and has noted that an attractive financing tool for a developer is not automatically the best one for the taxpayer who ends up paying the debt.</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <h3 class="inline">Sourcing</h3>
+    <div class="source-list">
+      Eagle Mountain Redevelopment Agency &mdash; Notice of Hearing, Sweetwater Industrial Park CRA #3, hearing April 18, 2023 (Utah Public Notice Website)<br>
+      Eagle Mountain Redevelopment Agency &mdash; Notice of Hearing, Sweetwater Industrial Park CRA #4 Amended Plan and Budget, posted December 5, 2025 for a January 6, 2026 hearing (Utah Public Notice Website, notice 1043296 and attachment 1361316)<br>
+      Eagle Mountain Redevelopment Agency &mdash; board meeting materials, September 2, 2025 (CRA #4 created for Meta data center campus expansion)<br>
+      Eagle Mountain Redevelopment Agency &mdash; Board meeting packet, August 1, 2023: Amended Project Area Plan, Amended Project Area Budget, Interlocal Cooperation Agreement<br>
+      Community Reinvestment Agency of Weber County &mdash; Resolution No. CRA06-2024 (Dec 17, 2024) and notices of interlocal cooperation agreements with Weber County, Weber School District, Weber Basin Water Conservancy District and Weber Fire District (webercountyutah.gov news posts 183, 185, 202)<br>
+      Nordic Village Financing Plan Review &mdash; Overview of CRA Project Area Plan and Budget, prepared for the Weber Fire District by Lewis Young Robertson and Burningham (Utah Public Notice Website, file 1207807)<br>
+      Nordic Village Public Infrastructure District No. 1 &mdash; 2026 Final Budget (Utah Public Notice Website, file 1362329)<br>
+      Weber County Commission minutes, December 31, 2024<br>
+      Standard-Examiner, "Weber County Commission approves ordinance adopting Nordic Village project area plan," Dec 31, 2024<br>
+      Utah Lieutenant Governor's Office &mdash; Sage Creek Infrastructure Financing District, Notice of Creation<br>
+      Weber School District board presentation on Nordic Village tax increment participation, reported January 2025<br>
+      Utah Inland Port Authority &mdash; West Weber Project Area Plan &amp; Budget, Amendment #1, June 25, 2026<br>
+      Utah Inland Port Authority &mdash; West Weber Annual Report 2025&ndash;2026, dated May 20, 2026 (trigger timing, PID bonds, AIB loan, capital deployed, recruitment pipeline)<br>
+      Utah Inland Port Authority &mdash; School District Partnership page; Resolutions 2025-24 and 2025-38 (Verk PID, Crossing PID tax sharing at 92.5%)<br>
+      Weber County Commission Resolutions 39-2023 and 02-2024<br>
+      Utah Code Title 11, Ch. 58 &mdash; Utah Inland Port Authority Act, Part 6 (Property Tax Differential)<br>
+      Utah Code &sect; 17C-1-102, &sect; 17C-1-406, &sect; 17C-5-205, &sect; 17C-5-303 &mdash; Community Reinvestment Agency Act<br>
+      Utah Code &sect; 63N-3-602, &sect; 63N-3-603, &sect; 63N-3-605 &mdash; Housing and Transit Reinvestment Zone Act<br>
+      Utah Code &sect; 59-2-902; USBE School District Tax Levies Descriptions<br>
+      S.B. 142 (2017) Redevelopment Agency Amendments, primary sponsor Sen. Lincoln Fillmore; S.B. 188 (2025) School District Modifications<br>
+      Local Building Authority of Alpine School District, Notice of Bonds to be Issued, April 22, 2025; North Summit School District, Notice of Intent to Issue Lease Revenue Bonds, December 3, 2025<br>
+      Utah Investigative Journalism Project with KSL.com, April 2026 &mdash; PID debt vs. state debt obligation at end of 2025 ($3.8 billion vs. $1.1 billion)<br>
+      Utah Rules Review and General Government Oversight Committee, January 2026 &mdash; State Auditor testimony on PID scale and the 62.5% reporting compliance rate under &sect; 17D-4-205; Gilmore &amp; Bell testimony on component-unit classification<br>
+      Black Desert Public Infrastructure District &mdash; Notice of Bonds to be Issued, February 16, 2024, up to $234,870,000 (Utah Public Notice Website)<br>
+      Piper Sandler &amp; Co. &mdash; Public Infrastructure Districts presentation (Utah Public Notice Website), PID revenue sources and "no recourse" framing<br>
+      Office of the Legislative Fiscal Analyst / budget.utah.gov &mdash; "Power of PIDs: A Look at Utah's Public Infrastructure Districts"<br>
+      KPCW reporting on the Wohali bankruptcy and PID accountability, Dec 8 and Dec 16, 2025; Jan 1 and April 21, 2026<br>
+      Office of the Utah State Auditor &mdash; draft advisory to local governments on PID financial accountability, Nov 18, 2025, finalized March 2026<br>
+      Wohali Public Infrastructure District Nos. 1&ndash;2 &mdash; board minutes and engagement letters re: the Wohali Land Estates, LLC bankruptcy (Utah Public Notice Website)<br>
+      KPCW, "Why Utah auditor worries about developers bonding for infrastructure," March 20, 2026 (State Auditor Tina Cannon on PID scale, the four-times comparison, and reputational risk)<br>
+      Utah Inland Port Authority &mdash; Crossroads Public Infrastructure District tax differential bond sale, $150 million<br>
+      Office of the Utah State Auditor &mdash; statewide public infrastructure district bond total, $5,267,000,000 as of August 7, 2026 (figure provided by the Auditor's office); prior-year figures ~$4 billion (fall 2025) and ~$3.8 billion (end of 2025)<br>
+      Utah Office of the State Treasurer &mdash; School Bond Guaranty Program; Debt Affordability Study (stated scope exclusions); State of Utah Continuing Disclosure Memorandum (guaranteed school bonds outstanding as of Dec 31, 2023)
+    </div>
+    <p style="margin-top:22px;">Part of <a href="https://weber-county-hive.github.io/PIDS-Utah/index.html">the PIDS-Utah explainer series</a> &middot; <a href="https://weber-county-hive.github.io/PIDS-Utah/pid_mechanism_map.html">general PID mechanism map</a></p>
+  </div>
+</footer>
+
+<script>
+/* In-page navigation.
+   The jump controls are buttons, not links, on purpose: an anchor with a hash
+   href gets treated as outbound navigation by some embedded viewers, which pops
+   a "leaving this site" prompt instead of scrolling. Buttons plus scrollIntoView
+   scroll reliably in an embedded preview and on a normal hosted page alike. */
+(function () {
+  function go(id) {
+    var el = document.getElementById(id);
+    if (!el) return;
+    var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    el.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
+    /* move keyboard focus with the reader, then clean up */
+    var added = !el.hasAttribute('tabindex');
+    if (added) el.setAttribute('tabindex', '-1');
+    try { el.focus({ preventScroll: true }); } catch (e) { el.focus(); }
+    if (added) el.addEventListener('blur', function h() {
+      el.removeAttribute('tabindex');
+      el.removeEventListener('blur', h);
+    });
+  }
+
+  var btns = document.querySelectorAll('[data-scroll-to]');
+  for (var i = 0; i < btns.length; i++) {
+    btns[i].addEventListener('click', function (ev) {
+      ev.preventDefault();
+      ev.stopPropagation();
+      go(this.getAttribute('data-scroll-to'));
+    });
+  }
+})();
+</script>
+</body>
+</html>
